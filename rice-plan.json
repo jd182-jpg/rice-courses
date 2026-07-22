@@ -1,0 +1,359 @@
+{
+  "student": {
+    "name": "Jackson Darr",
+    "majors": "Business (Finance) · Minor: Entrepreneurship",
+    "classYear": "Junior",
+    "creditsNeeded": 120
+  },
+  "terms": [
+    {
+      "id": "idmrw4w4l8-u",
+      "name": "Fall 2026",
+      "targetCredits": 15,
+      "courseCrns": []
+    },
+    {
+      "id": "idmrw4w4l8-v",
+      "name": "Spring 2027",
+      "targetCredits": 15,
+      "courseCrns": []
+    },
+    {
+      "id": "idmrw4w4l8-w",
+      "name": "Fall 2027",
+      "targetCredits": 15,
+      "courseCrns": []
+    },
+    {
+      "id": "idmrw4w4l8-x",
+      "name": "Spring 2028",
+      "targetCredits": 15,
+      "courseCrns": []
+    }
+  ],
+  "catalog": {},
+  "transcript": [
+    {
+      "id": "idmrw4w4l8-1",
+      "subject": "CEVE",
+      "number": "100",
+      "title": "AP/OTH Credit Environ Science",
+      "credits": 3,
+      "grade": "TR",
+      "term": "AP / Transfer",
+      "divisions": [
+        "D3"
+      ]
+    },
+    {
+      "id": "idmrw4w4l8-2",
+      "subject": "BUSI",
+      "number": "221",
+      "title": "New Enterprises: Discovery",
+      "credits": 3,
+      "grade": "A",
+      "term": "Fall 2024",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-3",
+      "subject": "BUSI",
+      "number": "310",
+      "title": "Leading in Organizations",
+      "credits": 3,
+      "grade": "A-",
+      "term": "Fall 2024",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-4",
+      "subject": "BUSI",
+      "number": "360",
+      "title": "Founder's Journey",
+      "credits": 1,
+      "grade": "A",
+      "term": "Fall 2024",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-5",
+      "subject": "ECON",
+      "number": "100",
+      "title": "Principles of Economics",
+      "credits": 3,
+      "grade": "B+",
+      "term": "Fall 2024",
+      "divisions": [
+        "D2"
+      ]
+    },
+    {
+      "id": "idmrw4w4l8-6",
+      "subject": "LPAP",
+      "number": "180",
+      "title": "Walk, Jog, Run",
+      "credits": 1,
+      "grade": "A+",
+      "term": "Fall 2024",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-7",
+      "subject": "MATH",
+      "number": "101",
+      "title": "Single Variable Calculus I",
+      "credits": 3,
+      "grade": "A",
+      "term": "Fall 2024",
+      "divisions": [
+        "D3"
+      ]
+    },
+    {
+      "id": "idmrw4w4l8-8",
+      "subject": "PSYC",
+      "number": "101",
+      "title": "Introduction to Psychology",
+      "credits": 3,
+      "grade": "A",
+      "term": "Fall 2024",
+      "divisions": [
+        "D2"
+      ]
+    },
+    {
+      "id": "idmrw4w4l8-9",
+      "subject": "UNIV",
+      "number": "194",
+      "title": "CTIS Workshop",
+      "credits": 0,
+      "grade": "S",
+      "term": "Fall 2024",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-a",
+      "subject": "UNIV",
+      "number": "195",
+      "title": "CDOD Workshop",
+      "credits": 0,
+      "grade": "S",
+      "term": "Fall 2024",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-b",
+      "subject": "BUSI",
+      "number": "220",
+      "title": "Intro to Design and Innovation",
+      "credits": 3,
+      "grade": "A",
+      "term": "Spring 2025",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-c",
+      "subject": "BUSI",
+      "number": "305",
+      "title": "Financial Accounting",
+      "credits": 3,
+      "grade": "A-",
+      "term": "Spring 2025",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-d",
+      "subject": "BUSI",
+      "number": "361",
+      "title": "Entrepreneurial Communication",
+      "credits": 1,
+      "grade": "A+",
+      "term": "Spring 2025",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-e",
+      "subject": "BUSI",
+      "number": "369",
+      "title": "New Enterprises",
+      "credits": 3,
+      "grade": "A",
+      "term": "Spring 2025",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-f",
+      "subject": "BUSI",
+      "number": "395",
+      "title": "Data Analytics",
+      "credits": 4,
+      "grade": "A",
+      "term": "Spring 2025",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-g",
+      "subject": "COMM",
+      "number": "120",
+      "title": "FWIS Writing Studio",
+      "credits": 1,
+      "grade": "S",
+      "term": "Spring 2025",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-h",
+      "subject": "FWIS",
+      "number": "296",
+      "title": "Business in Literature & Film",
+      "credits": 3,
+      "grade": "A",
+      "term": "Spring 2025",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-i",
+      "subject": "BUSI",
+      "number": "223",
+      "title": "Modeling for Entrepreneurs",
+      "credits": 3,
+      "grade": "A",
+      "term": "Fall 2025",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-j",
+      "subject": "BUSI",
+      "number": "233",
+      "title": "GenAI for Business",
+      "credits": 3,
+      "grade": "A+",
+      "term": "Fall 2025",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-k",
+      "subject": "BUSI",
+      "number": "343",
+      "title": "Financial Management",
+      "credits": 3,
+      "grade": "A",
+      "term": "Fall 2025",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-l",
+      "subject": "BUSI",
+      "number": "380",
+      "title": "Marketing",
+      "credits": 3,
+      "grade": "A",
+      "term": "Fall 2025",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-m",
+      "subject": "BUSI",
+      "number": "390",
+      "title": "Strategic Management",
+      "credits": 3,
+      "grade": "A-",
+      "term": "Fall 2025",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-n",
+      "subject": "BUSI",
+      "number": "461",
+      "title": "Financing the Startup Venture",
+      "credits": 3,
+      "grade": "A",
+      "term": "Fall 2025",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-o",
+      "subject": "ASIA",
+      "number": "205",
+      "title": "East Asian Food History",
+      "credits": 3,
+      "grade": "A+",
+      "term": "Spring 2026",
+      "divisions": [
+        "D1"
+      ]
+    },
+    {
+      "id": "idmrw4w4l8-p",
+      "subject": "BUSI",
+      "number": "420",
+      "title": "Leadership and Teams",
+      "credits": 3,
+      "grade": "A",
+      "term": "Spring 2026",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-q",
+      "subject": "BUSI",
+      "number": "448",
+      "title": "Investments",
+      "credits": 3,
+      "grade": "P",
+      "term": "Spring 2026",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-r",
+      "subject": "BUSI",
+      "number": "463",
+      "title": "Entrepreneurial Strategy",
+      "credits": 3,
+      "grade": "A",
+      "term": "Spring 2026",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-s",
+      "subject": "BUSI",
+      "number": "465",
+      "title": "Student Venture Fund",
+      "credits": 3,
+      "grade": "A",
+      "term": "Spring 2026",
+      "divisions": []
+    },
+    {
+      "id": "idmrw4w4l8-t",
+      "subject": "RELI",
+      "number": "142",
+      "title": "The Colors of Life",
+      "credits": 3,
+      "grade": "A",
+      "term": "Spring 2026",
+      "divisions": [
+        "D1"
+      ]
+    }
+  ],
+  "divisionTargets": {
+    "D1": 12,
+    "D2": 12,
+    "D3": 12
+  },
+  "requirements": [
+    {
+      "id": "idmrw4w4l8-y",
+      "name": "Total credit hours",
+      "kind": "credits",
+      "need": 120,
+      "match": {
+        "any": true
+      }
+    }
+  ],
+  "ui": {
+    "tab": "req",
+    "weekTermId": null
+  }
+}

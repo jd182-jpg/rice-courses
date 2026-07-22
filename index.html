@@ -276,41 +276,69 @@ const DIVISIONS = [
   {id:"D2", name:"Social Sciences", cls:"d2"},
   {id:"D3", name:"Natural Sciences & Engineering", cls:"d3"},
 ];
-const STORAGE_KEY = "riceCoursePlanner.v1";
+const STORAGE_KEY = "riceCoursePlanner.v2";
 const GRID_START = 8*60;   // 8:00 AM
 const GRID_END = 21*60;    // 9:00 PM
 const PX_PER_MIN = 48/60;  // 48px per hour
 
 /* ---------------- Default seed data ---------------- */
 function seedState() {
-  const catalog = {};
-  [
-    {crn:"15079", subject:"BUSI", number:"215", section:"001", title:"LEADING ACROSS SOCIAL DIVIDES",
-     instructor:"Jun, Sora", credits:3, partOfTerm:"Full Term",
-     meetings:[{days:["M","W"], start:16*60, end:17*60+15}], divisions:[], tags:[]},
-    {crn:"12696", subject:"BUSI", number:"221", section:"001", title:"NEW ENTERPRISES: DISCOVERY",
-     instructor:"Panahi, Hesam", credits:3, partOfTerm:"Full Term",
-     meetings:[{days:["T","R"], start:13*60, end:14*60+15}], divisions:[], tags:[]},
-    {crn:"13201", subject:"BUSI", number:"224", section:"001", title:"BIAS AND MEDICAL DEVICE DESIGN",
-     instructor:"Abidi, Sabia; Panahi, Hesam", credits:1, partOfTerm:"Full Term",
-     meetings:[{days:["M"], start:13*60, end:13*60+50}], divisions:[], tags:[]},
-  ].forEach(c => catalog[c.crn] = c);
+  // Completed courses from Jackson Darr's Rice transcript (in-progress Fall 2026 excluded).
+  // Division tags (D1/D2/D3) below are first-pass SUGGESTIONS — verify against the official list.
+  const T = (subject,number,title,credits,grade,term,divisions)=>(
+    {id:uid(), subject, number, title, credits, grade, term, divisions:divisions||[]});
+  const transcript = [
+    // Transfer / AP
+    T("CEVE","100","AP/OTH Credit Environ Science",3,"TR","AP / Transfer",["D3"]),
+    // Fall 2024
+    T("BUSI","221","New Enterprises: Discovery",3,"A","Fall 2024",[]),
+    T("BUSI","310","Leading in Organizations",3,"A-","Fall 2024",[]),
+    T("BUSI","360","Founder's Journey",1,"A","Fall 2024",[]),
+    T("ECON","100","Principles of Economics",3,"B+","Fall 2024",["D2"]),
+    T("LPAP","180","Walk, Jog, Run",1,"A+","Fall 2024",[]),
+    T("MATH","101","Single Variable Calculus I",3,"A","Fall 2024",["D3"]),
+    T("PSYC","101","Introduction to Psychology",3,"A","Fall 2024",["D2"]),
+    T("UNIV","194","CTIS Workshop",0,"S","Fall 2024",[]),
+    T("UNIV","195","CDOD Workshop",0,"S","Fall 2024",[]),
+    // Spring 2025
+    T("BUSI","220","Intro to Design and Innovation",3,"A","Spring 2025",[]),
+    T("BUSI","305","Financial Accounting",3,"A-","Spring 2025",[]),
+    T("BUSI","361","Entrepreneurial Communication",1,"A+","Spring 2025",[]),
+    T("BUSI","369","New Enterprises",3,"A","Spring 2025",[]),
+    T("BUSI","395","Data Analytics",4,"A","Spring 2025",[]),
+    T("COMM","120","FWIS Writing Studio",1,"S","Spring 2025",[]),
+    T("FWIS","296","Business in Literature & Film",3,"A","Spring 2025",[]),
+    // Fall 2025
+    T("BUSI","223","Modeling for Entrepreneurs",3,"A","Fall 2025",[]),
+    T("BUSI","233","GenAI for Business",3,"A+","Fall 2025",[]),
+    T("BUSI","343","Financial Management",3,"A","Fall 2025",[]),
+    T("BUSI","380","Marketing",3,"A","Fall 2025",[]),
+    T("BUSI","390","Strategic Management",3,"A-","Fall 2025",[]),
+    T("BUSI","461","Financing the Startup Venture",3,"A","Fall 2025",[]),
+    // Spring 2026
+    T("ASIA","205","East Asian Food History",3,"A+","Spring 2026",["D1"]),
+    T("BUSI","420","Leadership and Teams",3,"A","Spring 2026",[]),
+    T("BUSI","448","Investments",3,"P","Spring 2026",[]),
+    T("BUSI","463","Entrepreneurial Strategy",3,"A","Spring 2026",[]),
+    T("BUSI","465","Student Venture Fund",3,"A","Spring 2026",[]),
+    T("RELI","142","The Colors of Life",3,"A","Spring 2026",["D1"]),
+  ];
 
   return {
-    student: { name:"", majors:"", classYear:"Junior", creditsNeeded:120 },
+    student: { name:"Jackson Darr", majors:"Business (Finance) · Minor: Entrepreneurship", classYear:"Junior", creditsNeeded:120 },
     terms: [
-      {id:uid(), name:"Fall 2026", targetCredits:15, courseCrns:["15079","12696"]},
+      {id:uid(), name:"Fall 2026", targetCredits:15, courseCrns:[]},
       {id:uid(), name:"Spring 2027", targetCredits:15, courseCrns:[]},
       {id:uid(), name:"Fall 2027", targetCredits:15, courseCrns:[]},
       {id:uid(), name:"Spring 2028", targetCredits:15, courseCrns:[]},
     ],
-    catalog,
-    transcript: [],
+    catalog: {},
+    transcript,
     divisionTargets: { D1:12, D2:12, D3:12 },
     requirements: [
       {id:uid(), name:"Total credit hours", kind:"credits", need:120, match:{any:true}},
     ],
-    ui: { tab:"plan", weekTermId:null }
+    ui: { tab:"req", weekTermId:null }
   };
 }
 
