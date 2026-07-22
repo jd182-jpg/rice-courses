@@ -2,7 +2,7 @@ name: Deploy planner to GitHub Pages
 
 on:
   push:
-    branches: [claude/class-schedule-planner-culb83]
+    branches: [main, claude/class-schedule-planner-culb83]
   workflow_dispatch:
 
 permissions:
@@ -23,10 +23,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Configure Pages (auto-enable)
+      - name: Configure Pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
