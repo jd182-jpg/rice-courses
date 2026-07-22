@@ -528,6 +528,19 @@ function termConflicts(term){
   }
   return bad;
 }
+/* All catalog sections of the same course (subject+number), excluding planning placeholders. */
+function sectionsOf(course){
+  return Object.values(state.catalog)
+    .filter(c=> !(c.tags||[]).includes('placeholder') && c.subject===course.subject && String(c.number)===String(course.number))
+    .sort((a,b)=> String(a.section||'').localeCompare(String(b.section||'')));
+}
+/* Would `candidate` clash with the other courses already in `term` (ignoring excludeCrn)? */
+function conflictsWith(term, candidate, excludeCrn){
+  return (term.courseCrns||[]).some(crn=>{
+    if(crn===excludeCrn || crn===candidate.crn) return false;
+    const other=state.catalog[crn]; return other && coursesOverlap(candidate, other);
+  });
+}
 function coursesOverlap(a,b){
   for(const ma of (a.meetings||[])) for(const mb of (b.meetings||[])){
     if(ma.start==null||mb.start==null) continue;
@@ -723,6 +736,11 @@ function renderPlan(){
         setTimeout(()=>cc.classList.add('dragging'),0);
       });
       cc.addEventListener('dragend', ()=>{ cc.classList.remove('dragging'); document.querySelectorAll('.term.dropok').forEach(n=>n.classList.remove('dropok')); DRAG=null; });
+      if(!(c.tags||[]).includes('placeholder') && sectionsOf(c).length>1){
+        const sb=mkBtn('⇄ '+sectionsOf(c).length+' section times','ghost sm',()=>openSectionPicker(term,c));
+        sb.style.marginTop='6px';
+        cc.appendChild(sb);
+      }
       body.appendChild(cc);
     });
     card.appendChild(body);
@@ -1101,6 +1119,7 @@ function openAddCourseModal(term){
       const it=el('<div class="pickitem"></div>');
       it.innerHTML=`<div><span class="code mono" style="font-weight:600;color:var(--ink)">${esc(courseCode(c))}</span> <span class="hint">${esc(c.title)}</span><br><span class="subm hint mono">${num(c.credits)} cr · ${esc(meetingStr(c))}</span></div>`;
       if(completedMatch(c.subject,c.number)) it.appendChild(el('<span class="pill good">✓ taken</span>'));
+      if((c.meetings||[]).length && !inTerm.has(c.crn) && conflictsWith(term,c,null)) it.appendChild(el('<span class="pill bad">conflict</span>'));
       if(inTerm.has(c.crn)) it.appendChild(el('<span class="pill good">added</span>'));
       else it.appendChild(mkBtn("Add","btn sm",()=>{
         if(completedMatch(c.subject,c.number) && !confirm(courseCode(c)+" is already on your transcript. Add it anyway?")) return;
@@ -1128,6 +1147,34 @@ function openAddToTermModal(course){
   });
   body.appendChild(listWrap);
   openModal("Add to term", body);
+}
+function openSectionPicker(term, course){
+  const secs=sectionsOf(course);
+  const curCrn=(term.courseCrns||[]).find(crn=>{ const c=state.catalog[crn]; return c && c.subject===course.subject && String(c.number)===String(course.number); });
+  const body=el('<div></div>');
+  body.appendChild(el('<p class="hint" style="margin:0">Meeting times for every section. <b>fits</b> = no clash with your other '+esc(term.name)+' courses; <b>conflict</b> = overlaps one.</p>'));
+  const list=el('<div class="picklist"></div>');
+  if(secs.length<=1) list.appendChild(el('<div class="hint" style="padding:8px">Only one section for this course is in your catalog.</div>'));
+  secs.forEach(s=>{
+    const isCur=s.crn===curCrn;
+    const clash=conflictsWith(term, s, curCrn);
+    const it=el('<div class="pickitem"></div>');
+    it.innerHTML=`<div><span class="mono" style="font-weight:600;color:var(--ink)">Sec ${esc(s.section||'—')}</span>
+      <span class="hint mono"> CRN ${esc(s.crn)}</span><br>
+      <span class="subm mono">${esc(meetingStr(s))}</span>${s.instructor?' <span class="hint">· '+esc(s.instructor)+'</span>':''}</div>`;
+    const right=el('<div class="row" style="align-items:center"></div>');
+    if(isCur) right.appendChild(el('<span class="pill good">in plan</span>'));
+    else right.appendChild(clash ? el('<span class="pill bad">conflict</span>') : el('<span class="pill good">fits</span>'));
+    if(!isCur) right.appendChild(mkBtn("Use this","btn sm",()=>{
+      let arr=(term.courseCrns||[]).slice();
+      arr = curCrn ? arr.map(x=> x===curCrn ? s.crn : x) : arr.concat(s.crn);
+      arr = arr.filter((v,i)=> arr.indexOf(v)===i);
+      term.courseCrns=arr; toast(courseCode(s)+" → "+term.name); closeModal(); render();
+    }));
+    it.appendChild(right); list.appendChild(it);
+  });
+  body.appendChild(list);
+  openModal(course.subject+" "+course.number+" — "+course.title, body);
 }
 function openReqModal(existing){
   const r = existing || { id:uid(), name:"", kind:"credits", need:12, match:{subjects:[],divisions:[],courses:[]} };
