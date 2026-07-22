@@ -5,11 +5,16 @@
     "classYear": "Junior",
     "creditsNeeded": 120
   },
+  "scenarios": [
+    "Graduate early (Dec 2027)",
+    "Work · finish on-time (May 2028)"
+  ],
   "terms": [
     {
-      "id": "idmrw9s73p-v",
+      "id": "idmrwa5v1w-v",
       "name": "Fall 2026",
       "targetCredits": 19,
+      "scenario": "all",
       "courseCrns": [
         "13201",
         "13945",
@@ -21,22 +26,60 @@
       ]
     },
     {
-      "id": "idmrw9s73p-w",
+      "id": "idmrwa5v1w-w",
       "name": "Spring 2027",
       "targetCredits": 15,
-      "courseCrns": []
+      "scenario": "Graduate early (Dec 2027)",
+      "courseCrns": [
+        "13953",
+        "12702",
+        "13123",
+        "P448",
+        "PELEC1"
+      ]
     },
     {
-      "id": "idmrw9s73p-x",
+      "id": "idmrwa5v1w-x",
+      "name": "Fall 2027 — GRADUATE",
+      "targetCredits": 9,
+      "scenario": "Graduate early (Dec 2027)",
+      "courseCrns": [
+        "PELEC2",
+        "PELEC3",
+        "PELEC4"
+      ]
+    },
+    {
+      "id": "idmrwa5v1w-y",
+      "name": "Spring 2027",
+      "targetCredits": 9,
+      "scenario": "Work · finish on-time (May 2028)",
+      "courseCrns": [
+        "13953",
+        "P448",
+        "PELEC1"
+      ]
+    },
+    {
+      "id": "idmrwa5v1w-z",
       "name": "Fall 2027",
-      "targetCredits": 15,
-      "courseCrns": []
+      "targetCredits": 9,
+      "scenario": "Work · finish on-time (May 2028)",
+      "courseCrns": [
+        "12702",
+        "13123",
+        "PELEC2"
+      ]
     },
     {
-      "id": "idmrw9s73p-y",
-      "name": "Spring 2028",
-      "targetCredits": 12,
-      "courseCrns": []
+      "id": "idmrwa5v1w-10",
+      "name": "Spring 2028 — GRADUATE",
+      "targetCredits": 6,
+      "scenario": "Work · finish on-time (May 2028)",
+      "courseCrns": [
+        "PELEC3",
+        "PELEC4"
+      ]
     }
   ],
   "catalog": {
@@ -9150,11 +9193,86 @@
       "divisions": [
         "D1"
       ]
+    },
+    "P448": {
+      "crn": "P448",
+      "subject": "BUSI",
+      "number": "448",
+      "section": "—",
+      "title": "INVESTMENTS (re-take for letter grade)",
+      "instructor": "",
+      "credits": 3,
+      "partOfTerm": "future term",
+      "meetings": [],
+      "divisions": [],
+      "tags": [
+        "placeholder"
+      ]
+    },
+    "PELEC1": {
+      "crn": "PELEC1",
+      "subject": "ELEC",
+      "number": "",
+      "section": "",
+      "title": "Free elective (your choice)",
+      "instructor": "",
+      "credits": 3,
+      "partOfTerm": "future term",
+      "meetings": [],
+      "divisions": [],
+      "tags": [
+        "placeholder"
+      ]
+    },
+    "PELEC2": {
+      "crn": "PELEC2",
+      "subject": "ELEC",
+      "number": "",
+      "section": "",
+      "title": "Free elective (your choice)",
+      "instructor": "",
+      "credits": 3,
+      "partOfTerm": "future term",
+      "meetings": [],
+      "divisions": [],
+      "tags": [
+        "placeholder"
+      ]
+    },
+    "PELEC3": {
+      "crn": "PELEC3",
+      "subject": "ELEC",
+      "number": "",
+      "section": "",
+      "title": "Free elective (your choice)",
+      "instructor": "",
+      "credits": 3,
+      "partOfTerm": "future term",
+      "meetings": [],
+      "divisions": [],
+      "tags": [
+        "placeholder"
+      ]
+    },
+    "PELEC4": {
+      "crn": "PELEC4",
+      "subject": "ELEC",
+      "number": "",
+      "section": "",
+      "title": "Free elective (your choice)",
+      "instructor": "",
+      "credits": 3,
+      "partOfTerm": "future term",
+      "meetings": [],
+      "divisions": [],
+      "tags": [
+        "placeholder"
+      ]
     }
   },
   "transcript": [
     {
-      "id": "idmrw9s73n-1",
+      "id": "idmrwa5v1r-1",
       "subject": "CEVE",
       "number": "100",
       "title": "AP/OTH Credit Environ Science",
@@ -9164,7 +9282,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-2",
+      "id": "idmrwa5v1r-2",
       "subject": "TRAN",
       "number": "100",
       "title": "Intro Statistical Analysis (transfer)",
@@ -9174,7 +9292,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-3",
+      "id": "idmrwa5v1r-3",
       "subject": "BUSI",
       "number": "221",
       "title": "New Enterprises: Discovery",
@@ -9184,7 +9302,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-4",
+      "id": "idmrwa5v1r-4",
       "subject": "BUSI",
       "number": "310",
       "title": "Leading in Organizations",
@@ -9194,7 +9312,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-5",
+      "id": "idmrwa5v1r-5",
       "subject": "BUSI",
       "number": "360",
       "title": "Founder's Journey",
@@ -9204,7 +9322,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-6",
+      "id": "idmrwa5v1r-6",
       "subject": "ECON",
       "number": "100",
       "title": "Principles of Economics",
@@ -9216,7 +9334,7 @@
       ]
     },
     {
-      "id": "idmrw9s73n-7",
+      "id": "idmrwa5v1r-7",
       "subject": "LPAP",
       "number": "180",
       "title": "Walk, Jog, Run",
@@ -9226,7 +9344,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-8",
+      "id": "idmrwa5v1r-8",
       "subject": "MATH",
       "number": "101",
       "title": "Single Variable Calculus I",
@@ -9238,7 +9356,7 @@
       ]
     },
     {
-      "id": "idmrw9s73n-9",
+      "id": "idmrwa5v1r-9",
       "subject": "PSYC",
       "number": "101",
       "title": "Introduction to Psychology",
@@ -9250,7 +9368,7 @@
       ]
     },
     {
-      "id": "idmrw9s73n-a",
+      "id": "idmrwa5v1s-a",
       "subject": "UNIV",
       "number": "194",
       "title": "CTIS Workshop",
@@ -9260,7 +9378,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-b",
+      "id": "idmrwa5v1s-b",
       "subject": "UNIV",
       "number": "195",
       "title": "CDOD Workshop",
@@ -9270,7 +9388,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-c",
+      "id": "idmrwa5v1s-c",
       "subject": "BUSI",
       "number": "220",
       "title": "Intro to Design and Innovation",
@@ -9280,7 +9398,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-d",
+      "id": "idmrwa5v1s-d",
       "subject": "BUSI",
       "number": "305",
       "title": "Financial Accounting",
@@ -9290,7 +9408,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-e",
+      "id": "idmrwa5v1s-e",
       "subject": "BUSI",
       "number": "361",
       "title": "Entrepreneurial Communication",
@@ -9300,7 +9418,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-f",
+      "id": "idmrwa5v1s-f",
       "subject": "BUSI",
       "number": "369",
       "title": "New Enterprises",
@@ -9310,7 +9428,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-g",
+      "id": "idmrwa5v1s-g",
       "subject": "BUSI",
       "number": "395",
       "title": "Data Analytics",
@@ -9322,7 +9440,7 @@
       ]
     },
     {
-      "id": "idmrw9s73n-h",
+      "id": "idmrwa5v1s-h",
       "subject": "COMM",
       "number": "120",
       "title": "FWIS Writing Studio",
@@ -9332,7 +9450,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-i",
+      "id": "idmrwa5v1s-i",
       "subject": "FWIS",
       "number": "296",
       "title": "Business in Literature & Film",
@@ -9342,7 +9460,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-j",
+      "id": "idmrwa5v1s-j",
       "subject": "BUSI",
       "number": "223",
       "title": "Modeling for Entrepreneurs",
@@ -9352,7 +9470,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-k",
+      "id": "idmrwa5v1s-k",
       "subject": "BUSI",
       "number": "233",
       "title": "GenAI for Business",
@@ -9362,7 +9480,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-l",
+      "id": "idmrwa5v1s-l",
       "subject": "BUSI",
       "number": "343",
       "title": "Financial Management",
@@ -9374,7 +9492,7 @@
       ]
     },
     {
-      "id": "idmrw9s73n-m",
+      "id": "idmrwa5v1s-m",
       "subject": "BUSI",
       "number": "380",
       "title": "Marketing",
@@ -9384,7 +9502,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-n",
+      "id": "idmrwa5v1s-n",
       "subject": "BUSI",
       "number": "390",
       "title": "Strategic Management",
@@ -9394,7 +9512,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-o",
+      "id": "idmrwa5v1s-o",
       "subject": "BUSI",
       "number": "461",
       "title": "Financing the Startup Venture",
@@ -9404,7 +9522,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-p",
+      "id": "idmrwa5v1s-p",
       "subject": "ASIA",
       "number": "205",
       "title": "East Asian Food History",
@@ -9416,7 +9534,7 @@
       ]
     },
     {
-      "id": "idmrw9s73n-q",
+      "id": "idmrwa5v1s-q",
       "subject": "BUSI",
       "number": "420",
       "title": "Leadership and Teams",
@@ -9426,7 +9544,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-r",
+      "id": "idmrwa5v1s-r",
       "subject": "BUSI",
       "number": "448",
       "title": "Investments",
@@ -9436,7 +9554,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-s",
+      "id": "idmrwa5v1s-s",
       "subject": "BUSI",
       "number": "463",
       "title": "Entrepreneurial Strategy",
@@ -9446,7 +9564,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-t",
+      "id": "idmrwa5v1s-t",
       "subject": "BUSI",
       "number": "465",
       "title": "Student Venture Fund",
@@ -9456,7 +9574,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw9s73n-u",
+      "id": "idmrwa5v1s-u",
       "subject": "RELI",
       "number": "142",
       "title": "The Colors of Life",
@@ -9475,7 +9593,7 @@
   },
   "requirements": [
     {
-      "id": "idmrw9s73p-z",
+      "id": "idmrwa5v1w-11",
       "name": "Total credit hours (need 120)",
       "kind": "credits",
       "need": 120,
@@ -9484,7 +9602,7 @@
       }
     },
     {
-      "id": "idmrw9s73p-10",
+      "id": "idmrwa5v1w-12",
       "name": "Upper-level credits, 300+ (need 48)",
       "kind": "credits",
       "need": 48,
@@ -9493,7 +9611,7 @@
       }
     },
     {
-      "id": "idmrw9s73p-11",
+      "id": "idmrwa5v1w-13",
       "name": "Business Communication — BUSI 396",
       "kind": "courses",
       "need": 1,
@@ -9504,7 +9622,7 @@
       }
     },
     {
-      "id": "idmrw9s73p-12",
+      "id": "idmrwa5v1w-14",
       "name": "Financial Statement Analysis — BUSI 401",
       "kind": "courses",
       "need": 1,
@@ -9515,7 +9633,7 @@
       }
     },
     {
-      "id": "idmrw9s73p-13",
+      "id": "idmrwa5v1w-15",
       "name": "Business Core Elective — BUSI 430 or ECON 200",
       "kind": "courses",
       "need": 1,
@@ -9528,7 +9646,8 @@
     }
   ],
   "ui": {
-    "tab": "req",
-    "weekTermId": null
+    "tab": "plan",
+    "weekTermId": null,
+    "scenario": "Graduate early (Dec 2027)"
   }
 }
