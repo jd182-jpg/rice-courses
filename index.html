@@ -1,0 +1,1147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Rice Course Planner</title>
+<style>*{margin:0;padding:0}</style>
+</head>
+<body>
+<style>
+  :root {
+    --ink: #1E3A5F;
+    --accent: #2F6FB3;
+    --accent-soft: #E7F0FA;
+    --bg: #F4F6F9;
+    --surface: #FFFFFF;
+    --surface-2: #FAFBFD;
+    --border: #E0E5EC;
+    --border-strong: #C9D1DC;
+    --text: #1B2430;
+    --muted: #5C6672;
+    --faint: #8A94A2;
+    --good: #2E7D57;
+    --good-soft: #E4F2EA;
+    --warn: #B5761F;
+    --warn-soft: #F8EEDD;
+    --bad: #C0392B;
+    --bad-soft: #FbE9E7;
+    --d1: #7A5C9E;   /* Humanities */
+    --d1-soft: #EEE9F4;
+    --d2: #2E8B8B;   /* Social Sciences */
+    --d2-soft: #E2F1F1;
+    --d3: #C08A2D;   /* Natural Sci / Eng */
+    --d3-soft: #F6EEDD;
+    --shadow: 0 1px 2px rgba(20,30,45,.06), 0 4px 16px rgba(20,30,45,.05);
+    --radius: 10px;
+    --radius-sm: 7px;
+    --serif: ui-serif, Georgia, "Iowan Old Style", "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #A9C6EA;
+      --accent: #5B9BE0;
+      --accent-soft: #16283B;
+      --bg: #0E131A;
+      --surface: #161D26;
+      --surface-2: #1A222D;
+      --border: #29323E;
+      --border-strong: #3A4552;
+      --text: #E6EAF0;
+      --muted: #9AA4B1;
+      --faint: #6E7885;
+      --good: #5CB98C;
+      --good-soft: #13271D;
+      --warn: #D9A441;
+      --warn-soft: #2C2313;
+      --bad: #E8776B;
+      --bad-soft: #2E1714;
+      --d1: #B79FD6; --d1-soft: #211B2C;
+      --d2: #63C1C1; --d2-soft: #14282A;
+      --d3: #DBB05C; --d3-soft: #2A2113;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 18px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"] {
+    --ink:#1E3A5F;--accent:#2F6FB3;--accent-soft:#E7F0FA;--bg:#F4F6F9;--surface:#FFFFFF;--surface-2:#FAFBFD;
+    --border:#E0E5EC;--border-strong:#C9D1DC;--text:#1B2430;--muted:#5C6672;--faint:#8A94A2;
+    --good:#2E7D57;--good-soft:#E4F2EA;--warn:#B5761F;--warn-soft:#F8EEDD;--bad:#C0392B;--bad-soft:#FBE9E7;
+    --d1:#7A5C9E;--d1-soft:#EEE9F4;--d2:#2E8B8B;--d2-soft:#E2F1F1;--d3:#C08A2D;--d3-soft:#F6EEDD;
+    --shadow:0 1px 2px rgba(20,30,45,.06),0 4px 16px rgba(20,30,45,.05);
+  }
+  :root[data-theme="dark"] {
+    --ink:#A9C6EA;--accent:#5B9BE0;--accent-soft:#16283B;--bg:#0E131A;--surface:#161D26;--surface-2:#1A222D;
+    --border:#29323E;--border-strong:#3A4552;--text:#E6EAF0;--muted:#9AA4B1;--faint:#6E7885;
+    --good:#5CB98C;--good-soft:#13271D;--warn:#D9A441;--warn-soft:#2C2313;--bad:#E8776B;--bad-soft:#2E1714;
+    --d1:#B79FD6;--d1-soft:#211B2C;--d2:#63C1C1;--d2-soft:#14282A;--d3:#DBB05C;--d3-soft:#2A2113;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 18px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans);
+    font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  h1,h2,h3 { font-family: var(--serif); font-weight: 600; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  button { font-family: inherit; font-size: inherit; cursor: pointer; }
+  .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .app { max-width: 1180px; margin: 0 auto; padding: 0 18px 80px; }
+
+  /* Masthead */
+  .masthead { padding: 22px 0 14px; display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .brand h1 { font-size: 25px; color: var(--ink); }
+  .brand .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--faint); margin-bottom: 3px; }
+  .theme-btn { background: var(--surface); border: 1px solid var(--border); color: var(--muted);
+    border-radius: 20px; padding: 6px 13px; font-size: 12.5px; display: inline-flex; gap: 6px; align-items: center; }
+  .theme-btn:hover { border-color: var(--border-strong); color: var(--text); }
+
+  /* Summary bar */
+  .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 14px 16px; box-shadow: var(--shadow); }
+  .stat .label { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); margin-bottom: 4px; }
+  .stat .value { font-family: var(--serif); font-size: 22px; color: var(--text); line-height: 1.1; }
+  .stat .value small { font-size: 13px; color: var(--muted); font-family: var(--sans); }
+  .stat .sub { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
+  .div-mini { display: flex; gap: 6px; margin-top: 6px; }
+  .div-mini .chip { flex: 1; text-align: center; border-radius: 5px; padding: 3px 0; font-size: 10.5px;
+    font-family: var(--mono); border: 1px solid transparent; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 2px; margin: 18px 0 16px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .tab { background: none; border: none; padding: 9px 15px; color: var(--muted); font-size: 14px;
+    border-bottom: 2px solid transparent; margin-bottom: -1px; font-weight: 500; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+
+  /* Generic */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+  .btn { background: var(--accent); color: #fff; border: 1px solid var(--accent); border-radius: var(--radius-sm);
+    padding: 7px 13px; font-weight: 500; font-size: 13.5px; }
+  .btn:hover { filter: brightness(1.06); }
+  .btn.ghost { background: var(--surface); color: var(--text); border-color: var(--border-strong); }
+  .btn.ghost:hover { background: var(--surface-2); }
+  .btn.sm { padding: 4px 9px; font-size: 12px; }
+  .btn.danger { background: var(--surface); color: var(--bad); border-color: var(--border); }
+  .btn.danger:hover { background: var(--bad-soft); border-color: var(--bad); }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .spread { justify-content: space-between; }
+  input, select, textarea { font-family: var(--sans); font-size: 14px; color: var(--text);
+    background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 7px 9px; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: var(--accent); }
+  textarea { width: 100%; resize: vertical; font-family: var(--mono); font-size: 12.5px; line-height: 1.55; }
+  label.field { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
+  .hint { color: var(--muted); font-size: 12.5px; }
+  .lead { color: var(--muted); font-size: 13.5px; max-width: 62ch; }
+  .pill { display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px; border-radius: 20px;
+    font-size: 11px; font-family: var(--mono); border: 1px solid var(--border); background: var(--surface-2); color: var(--muted); }
+  .pill.good { background: var(--good-soft); color: var(--good); border-color: transparent; }
+  .pill.warn { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+  .pill.bad { background: var(--bad-soft); color: var(--bad); border-color: transparent; }
+  .tag-d1 { background: var(--d1-soft); color: var(--d1); }
+  .tag-d2 { background: var(--d2-soft); color: var(--d2); }
+  .tag-d3 { background: var(--d3-soft); color: var(--d3); }
+  .empty { text-align: center; padding: 34px 16px; color: var(--muted); }
+  .empty h3 { color: var(--text); margin-bottom: 6px; }
+
+  /* Plan */
+  .plan-scroll { overflow-x: auto; padding-bottom: 10px; }
+  .terms { display: flex; gap: 14px; align-items: flex-start; min-width: min-content; }
+  .term { flex: 0 0 258px; }
+  .term-head { padding: 11px 13px; border-bottom: 1px solid var(--border); }
+  .term-head .tname { font-family: var(--serif); font-size: 16px; }
+  .term-body { padding: 10px 11px; display: flex; flex-direction: column; gap: 8px; min-height: 40px; }
+  .ccard { border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--radius-sm);
+    padding: 8px 9px; background: var(--surface-2); position: relative; }
+  .ccard.conflict { border-left-color: var(--bad); background: var(--bad-soft); }
+  .ccard .code { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--ink); }
+  .ccard .ct { font-size: 12.5px; color: var(--text); margin: 1px 0 4px; line-height: 1.3; }
+  .ccard .meta { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .ccard .x { position: absolute; top: 6px; right: 6px; border: none; background: none; color: var(--faint);
+    font-size: 15px; line-height: 1; padding: 2px; border-radius: 4px; }
+  .ccard .x:hover { color: var(--bad); background: var(--bad-soft); }
+  .term-foot { padding: 9px 12px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .credit-tot { font-family: var(--mono); font-size: 13px; }
+  .term-warn { font-size: 11.5px; padding: 6px 12px; border-top: 1px dashed var(--border); }
+
+  /* Week grid */
+  .weekwrap { overflow-x: auto; }
+  .grid { display: grid; grid-template-columns: 52px repeat(var(--ndays,5), minmax(96px,1fr)); position: relative; min-width: 560px; }
+  .grid .corner, .grid .dayhead { position: sticky; top: 0; background: var(--surface); z-index: 3;
+    border-bottom: 1px solid var(--border-strong); padding: 7px 4px; text-align: center; font-size: 12.5px; font-weight: 600; }
+  .gridbody { position: relative; }
+  .hourrow { display: grid; grid-template-columns: 52px repeat(var(--ndays,5), minmax(96px,1fr)); }
+  .hourlabel { font-family: var(--mono); font-size: 10.5px; color: var(--faint); text-align: right; padding: 0 6px;
+    border-right: 1px solid var(--border); transform: translateY(-6px); height: 48px; }
+  .cell { border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); height: 48px; }
+  .cell:nth-child(2) { border-left: 1px solid var(--border); }
+  .events { position: absolute; top: 0; left: 52px; right: 0; bottom: 0; display: grid;
+    grid-template-columns: repeat(var(--ndays,5), 1fr); pointer-events: none; }
+  .daycol { position: relative; }
+  .ev { position: absolute; left: 3px; right: 3px; border-radius: 6px; padding: 4px 6px; overflow: hidden;
+    background: var(--accent-soft); border: 1px solid var(--accent); color: var(--ink); pointer-events: auto; }
+  .ev.conflict { background: var(--bad-soft); border-color: var(--bad); color: var(--bad); }
+  .ev .evc { font-family: var(--mono); font-size: 11px; font-weight: 700; }
+  .ev .evt { font-size: 10.5px; line-height: 1.2; }
+  .ev .evm { font-family: var(--mono); font-size: 9.5px; opacity: .8; }
+  .freeday-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .freeday { padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); font-size: 12.5px; }
+  .freeday.free { background: var(--good-soft); border-color: transparent; color: var(--good); font-weight: 600; }
+  .freeday.busy { background: var(--surface-2); color: var(--muted); }
+
+  /* Requirements */
+  .reqgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 12px; }
+  .reqcard { padding: 14px 15px; }
+  .reqcard .rtop { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .reqcard h3 { font-size: 15.5px; }
+  .bar { height: 8px; border-radius: 5px; background: var(--border); overflow: hidden; margin: 9px 0 6px; }
+  .bar > i { display: block; height: 100%; background: var(--accent); border-radius: 5px; transition: width .3s; }
+  .bar.done > i { background: var(--good); }
+  .bar.d1 > i { background: var(--d1); } .bar.d2 > i { background: var(--d2); } .bar.d3 > i { background: var(--d3); }
+  .reqmeta { font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; }
+  .matched-list { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px; }
+
+  /* Catalog */
+  .catrow { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 11px 13px; border-bottom: 1px solid var(--border); align-items: center; }
+  .catrow:last-child { border-bottom: none; }
+  .catrow .code { font-family: var(--mono); font-weight: 600; color: var(--ink); font-size: 13px; }
+  .catrow .title { font-size: 13.5px; }
+  .catrow .subm { font-size: 11.5px; color: var(--muted); font-family: var(--mono); margin-top: 2px; }
+  .divtoggle { border: 1px solid var(--border-strong); background: var(--surface); border-radius: 5px;
+    padding: 2px 7px; font-size: 11px; font-family: var(--mono); color: var(--muted); }
+  .divtoggle.on1 { background: var(--d1-soft); color: var(--d1); border-color: var(--d1); }
+  .divtoggle.on2 { background: var(--d2-soft); color: var(--d2); border-color: var(--d2); }
+  .divtoggle.on3 { background: var(--d3-soft); color: var(--d3); border-color: var(--d3); }
+
+  /* Modal */
+  .overlay { position: fixed; inset: 0; background: rgba(15,20,28,.55); display: flex; align-items: center;
+    justify-content: center; z-index: 50; padding: 18px; }
+  .modal { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border);
+    max-width: 540px; width: 100%; max-height: 86vh; overflow: auto; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+  .modal-head { padding: 15px 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: var(--surface); }
+  .modal-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+  .picklist { display: flex; flex-direction: column; gap: 6px; max-height: 46vh; overflow: auto; }
+  .pickitem { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 10px;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); }
+  .pickitem:hover { border-color: var(--accent); background: var(--surface-2); }
+
+  .section-title { display: flex; align-items: baseline; gap: 10px; margin: 4px 0 12px; }
+  .section-title h2 { font-size: 18px; color: var(--ink); }
+  .divlegend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+  .swatch { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: middle; }
+  details.help { margin-top: 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px 12px; background: var(--surface-2); }
+  details.help summary { cursor: pointer; padding: 8px 0; font-weight: 600; color: var(--ink); font-size: 13.5px; }
+  details.help ul { margin: 4px 0 12px; padding-left: 18px; color: var(--muted); font-size: 13px; }
+  details.help li { margin: 4px 0; }
+  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff;
+    padding: 9px 16px; border-radius: 20px; font-size: 13px; z-index: 80; box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="app">
+  <header class="masthead">
+    <div class="brand">
+      <div class="kicker">Rice University · Degree &amp; Schedule Planner</div>
+      <h1 id="brandTitle">Course Planner</h1>
+    </div>
+    <button class="theme-btn" data-action="toggle-theme">◐ Theme</button>
+  </header>
+
+  <div id="summary" class="summary"></div>
+
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-tab="plan">Plan</button>
+    <button class="tab" data-tab="week">Week</button>
+    <button class="tab" data-tab="req">Requirements</button>
+    <button class="tab" data-tab="catalog">Catalog</button>
+    <button class="tab" data-tab="data">Data</button>
+  </nav>
+
+  <main id="view"></main>
+</div>
+
+<div id="modalRoot"></div>
+<div id="toastRoot"></div>
+
+<script>
+"use strict";
+
+/* ---------------- Constants ---------------- */
+const DAY_CODES = ["M","T","W","R","F","S","U"];
+const DAY_NAMES = {M:"Mon", T:"Tue", W:"Wed", R:"Thu", F:"Fri", S:"Sat", U:"Sun"};
+const DIVISIONS = [
+  {id:"D1", name:"Humanities", cls:"d1"},
+  {id:"D2", name:"Social Sciences", cls:"d2"},
+  {id:"D3", name:"Natural Sciences & Engineering", cls:"d3"},
+];
+const STORAGE_KEY = "riceCoursePlanner.v3";
+const EXTRA_CATALOG = [{"crn":"10040","subject":"MATH","number":"102","section":"S03","title":"SINGLE VARIABLE CALCULUS II","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D3"]},{"crn":"10041","subject":"MATH","number":"212","section":"S01","title":"MULTIVARIABLE CALCULUS","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D3"]},{"crn":"10042","subject":"MATH","number":"321","section":"001","title":"INTRODUCTION TO ANALYSIS I","instructor":"Chaika, Jonathan","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D3"]},{"crn":"10043","subject":"MATH","number":"355","section":"001","title":"LINEAR ALGEBRA","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D3"]},{"crn":"10044","subject":"MATH","number":"381","section":"001","title":"INTRO PARTIAL DIFF EQUATIONS","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":840,"end":890}],"divisions":["D3"]},{"crn":"10055","subject":"PHYS","number":"111","section":"S01","title":"HONORS MECHANICS (WITH LAB)","instructor":"Chan, Anthony; Dodds, Stanley","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":540,"end":590}],"divisions":["D3"]},{"crn":"10056","subject":"PHYS","number":"125","section":"S01","title":"GENERAL PHYSICS (WITH LAB)","instructor":"Stenson, Jared; Dunning, Barry; Dodds, Stanley; Hafner, Jason; Kiang, Ching-Hwa; Bonomo, Melia; Beaird, Robert","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["W","F"],"start":600,"end":650}],"divisions":["D3"]},{"crn":"10089","subject":"STAT","number":"280","section":"S01","title":"ELEMENTARY APPLIED STATISTICS","instructor":"Peterson, Leif","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":840,"end":915},{"days":["M"],"start":1140,"end":1260}],"divisions":["D3"]},{"crn":"10090","subject":"STAT","number":"305","section":"001","title":"INTRO TO STAT FOR BIOSCIENCES","instructor":"Peterson, Leif","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640},{"days":["M"],"start":1140,"end":1270}],"divisions":["D3"]},{"crn":"10091","subject":"STAT","number":"310","section":"001","title":"PROBABILITY & STATISTICS","instructor":"McGuffey, Elizabeth","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":755,"end":830}],"divisions":["D3"]},{"crn":"10096","subject":"MUSI","number":"117","section":"001","title":"FUNDAMENTALS OF MUSIC I","instructor":"Benjamin, Rebecca","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":540,"end":590}],"divisions":["D1"]},{"crn":"10105","subject":"MUSI","number":"321","section":"001","title":"BAROQUE & EARLY CLASSICAL ERAS","instructor":"Barnett, Gregory","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"10114","subject":"MUSI","number":"421","section":"001","title":"THE MODERN ERA","instructor":"Ward-Griffin, Danielle","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"10184","subject":"THEA","number":"331","section":"001","title":"THEATRE PRODUCTION","instructor":"Krouskop, Mark; Stepanik, Amber","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","T","W","R","F"],"start":1140,"end":1319}],"divisions":["D1"]},{"crn":"10190","subject":"MUSI","number":"117","section":"002","title":"FUNDAMENTALS OF MUSIC I","instructor":"Sung, Chennie","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D1"]},{"crn":"10198","subject":"STAT","number":"405","section":"001","title":"R FOR DATA SCIENCE","instructor":"Bertolusso, Roberto","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":960,"end":1035}],"divisions":["D3"]},{"crn":"10210","subject":"CHEM","number":"211","section":"S01","title":"ORGANIC CHEMISTRY I","instructor":"Tour, James","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D3"]},{"crn":"10240","subject":"GLHT","number":"201","section":"001","title":"INTRO TO GLOBAL HEALTH","instructor":"Mirabal, Yvette","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D3"]},{"crn":"10242","subject":"ECON","number":"307","section":"001","title":"PROBABILITY & STATISTICS","instructor":"McGuffey, Elizabeth","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":755,"end":830}],"divisions":["D3"]},{"crn":"10255","subject":"CEVE","number":"302","section":"001","title":"SUSTAINABLE DESIGN","instructor":"Loyo Rosales, Jorge","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":960,"end":1035}],"divisions":["D3"]},{"crn":"10256","subject":"ENGI","number":"302","section":"001","title":"SUSTAINABLE DESIGN","instructor":"Loyo Rosales, Jorge","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":960,"end":1035}],"divisions":["D3"]},{"crn":"10289","subject":"FILM","number":"327","section":"001","title":"DOCUMENTARY PRODUCTION","instructor":"Katz, Hazel","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":960}],"divisions":["D1"]},{"crn":"10290","subject":"ARTS","number":"327","section":"001","title":"DOCUMENTARY PRODUCTION","instructor":"Katz, Hazel","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":960}],"divisions":["D1"]},{"crn":"10327","subject":"ANTH","number":"324","section":"001","title":"DOCUMENTARY PRODUCTION","instructor":"Katz, Hazel","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":960}],"divisions":["D1"]},{"crn":"10341","subject":"STAT","number":"305","section":"002","title":"INTRO TO STAT FOR BIOSCIENCES","instructor":"Peterson, Leif","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640},{"days":["T"],"start":990,"end":1110}],"divisions":["D3"]},{"crn":"10414","subject":"FILM","number":"280","section":"001","title":"HISTORY & AESTHETICS OF FILM","instructor":"Dove, Charles","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["M"],"start":840,"end":1070}],"divisions":["D1"]},{"crn":"10415","subject":"ARTS","number":"280","section":"001","title":"HISTORY & AESTHETICS OF FILM","instructor":"Dove, Charles","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["M"],"start":840,"end":1070}],"divisions":["D1"]},{"crn":"10416","subject":"HART","number":"280","section":"001","title":"HISTORY & AESTHETICS OF FILM","instructor":"Dove, Charles","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["M"],"start":840,"end":1070}],"divisions":["D1"]},{"crn":"10449","subject":"CHIN","number":"263","section":"001","title":"SECOND YEAR CHINESE I","instructor":"Fu, Liang","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"10450","subject":"FREN","number":"263","section":"001","title":"SECOND YEAR FRENCH I","instructor":"Emami, Maryam","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"10451","subject":"SPAN","number":"263","section":"001","title":"SECOND YEAR SPANISH I","instructor":"Diaz Montalvo, Thais","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":780,"end":830}],"divisions":["D1"]},{"crn":"10452","subject":"SPAN","number":"263","section":"002","title":"SECOND YEAR SPANISH I","instructor":"Boggiano, Aymara","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"10453","subject":"SPAN","number":"321","section":"031","title":"SPAN: BUSINS & PROFSNL WORLD I","instructor":"Garcia-Rueda, Claudia","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":720,"end":770}],"divisions":["D1"]},{"crn":"10454","subject":"SPAN","number":"321","section":"011","title":"SPANISH FOR MEDICAL I","instructor":"Diaz Montalvo, Thais","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"10479","subject":"MATH","number":"101","section":"S03","title":"SINGLE VARIABLE CALCULUS I","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D3"]},{"crn":"10482","subject":"KINE","number":"301","section":"002","title":"HUMAN PHYSIOLOGY","instructor":"Kabiri, Laura","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D3"]},{"crn":"10489","subject":"ARTS","number":"165","section":"001","title":"BEGINNING SCULPTURE","instructor":"Lapinski, Lisa","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":780,"end":950}],"divisions":["D1"]},{"crn":"10517","subject":"GERM","number":"301","section":"001","title":"THIRD YEAR GERMAN I","instructor":"Oesmann, Astrid","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"10534","subject":"PHYS","number":"101","section":"S01","title":"MECHANICS (WITH LAB)","instructor":"Yu, Lam; Cone, Michael; Pagano, Guido; Hoeink, Julie; Xie, Yonglong","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":540,"end":590}],"divisions":["D3"]},{"crn":"10558","subject":"THEA","number":"102","section":"001","title":"INTRODUCTION TO ACTING","instructor":"Clark, Kyle","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"10941","subject":"STAT","number":"405","section":"002","title":"R FOR DATA SCIENCE","instructor":"Bertolusso, Roberto","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":1050,"end":1125}],"divisions":["D3"]},{"crn":"10953","subject":"CHIN","number":"301","section":"001","title":"THIRD YEAR CHINESE I","instructor":"Fu, Liang","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"11074","subject":"SPAN","number":"321","section":"021","title":"SPAN FOR INTERCULTURAL COMM I","instructor":"Jacobo, Jose","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":840,"end":890}],"divisions":["D1"]},{"crn":"11093","subject":"MATH","number":"101","section":"S01","title":"SINGLE VARIABLE CALCULUS I","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":540,"end":590}],"divisions":["D3"]},{"crn":"11094","subject":"MATH","number":"102","section":"S01","title":"SINGLE VARIABLE CALCULUS II","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":540,"end":590}],"divisions":["D3"]},{"crn":"11114","subject":"MATH","number":"212","section":"S02","title":"MULTIVARIABLE CALCULUS","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D3"]},{"crn":"11120","subject":"ARCH","number":"225","section":"001","title":"INTRO ARCHITECTURAL THINKING","instructor":"Friedman, Nathan","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D1"]},{"crn":"11124","subject":"HART","number":"225","section":"001","title":"INTRO ARCHITECTURAL THINKING","instructor":"Friedman, Nathan","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D1"]},{"crn":"11193","subject":"GERM","number":"263","section":"001","title":"SECOND YEAR GERMAN I","instructor":"Baig, Fatima","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":780,"end":830}],"divisions":["D1"]},{"crn":"11280","subject":"ARAB","number":"263","section":"001","title":"SECOND YEAR ARABIC I","instructor":"Elsherbiny, Hossam","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"11306","subject":"MATH","number":"211","section":"S02","title":"ORD DIFFERENTIAL EQUATIONS","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D3"]},{"crn":"11333","subject":"ARTS","number":"225","section":"001","title":"BEGINNING DRAWING","instructor":"Bernstein, Josh","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":540,"end":710}],"divisions":["D1"]},{"crn":"11334","subject":"ARTS","number":"301","section":"001","title":"BEGINNING PAINTING","instructor":"Fowler, Will","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":540,"end":710}],"divisions":["D1"]},{"crn":"11340","subject":"MUSI","number":"317","section":"003","title":"THEORY FOR NON MAJORS I","instructor":"Ng, Ho Fei","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"11342","subject":"SOSC","number":"302","section":"001","title":"SOCIAL SCIENCES STATISTICS","instructor":"Ferguson, Todd","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D3"]},{"crn":"11502","subject":"MATH","number":"102","section":"S04","title":"SINGLE VARIABLE CALCULUS II","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D3"]},{"crn":"11504","subject":"SPAN","number":"264","section":"001","title":"SECOND YEAR SPANISH II","instructor":"Garcia-Rueda, Claudia","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"11516","subject":"SOSC","number":"302","section":"002","title":"SOCIAL SCIENCES STATISTICS","instructor":"Ferguson, Todd","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D3"]},{"crn":"11525","subject":"DSCI","number":"301","section":"001","title":"STATISTICS FOR DATA SCIENCE","instructor":"Pizzo, Gina","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725},{"days":["R"],"start":1050,"end":1140}],"divisions":["D3"]},{"crn":"11546","subject":"SPAN","number":"303","section":"001","title":"SPANISH HERITAGE STUDENTS III","instructor":"Morones, Jessica","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":720,"end":770}],"divisions":["D1"]},{"crn":"11558","subject":"STAT","number":"315","section":"001","title":"STATISTICS FOR DATA SCIENCE","instructor":"Pizzo, Gina","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725},{"days":["R"],"start":1050,"end":1140}],"divisions":["D3"]},{"crn":"11599","subject":"JAPA","number":"301","section":"002","title":"THIRD YEAR JAPANESE I","instructor":"Suzuki, Mamiko","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"11691","subject":"FREN","number":"302","section":"001","title":"WRITING WORKSHOP","instructor":"Duquet, Valentin","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"11701","subject":"MATH","number":"101","section":"S05","title":"SINGLE VARIABLE CALCULUS I","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D3"]},{"crn":"11702","subject":"MATH","number":"212","section":"S05","title":"MULTIVARIABLE CALCULUS","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":540,"end":590}],"divisions":["D3"]},{"crn":"11703","subject":"MATH","number":"356","section":"001","title":"ABSTRACT ALGEBRA I","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":840,"end":890}],"divisions":["D3"]},{"crn":"11775","subject":"ASTR","number":"101","section":"001","title":"STARS, GALAXIES & THE UNIVERSE","instructor":"Isella, Andrea","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D3"]},{"crn":"11779","subject":"BIOS","number":"201","section":"S01","title":"INTRODUCTORY BIOLOGY I","instructor":"Gustin, Michael","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":540,"end":590}],"divisions":["D3"]},{"crn":"11849","subject":"BIOS","number":"341","section":"S01","title":"CELL BIOLOGY","instructor":"Braam, Janet; Phillips, Dereth","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D3"]},{"crn":"11990","subject":"FREN","number":"263","section":"002","title":"SECOND YEAR FRENCH I","instructor":"Emami, Maryam","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"12071","subject":"THEA","number":"331","section":"002","title":"THEATRE PRODUCTION","instructor":"Clark, Kyle; Keefe, Christina","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","T","W","R","F"],"start":1140,"end":1319}],"divisions":["D1"]},{"crn":"12124","subject":"DSCI","number":"101","section":"001","title":"INTRO TO DATA SCIENCE","instructor":"Luzi, Lorenzo","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":840,"end":915},{"days":["T"],"start":960,"end":1080}],"divisions":["D3"]},{"crn":"12141","subject":"ARCH","number":"311","section":"001","title":"HOUSTON ARCHITECTURE","instructor":"Fox, Stephen","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"12311","subject":"MATH","number":"355","section":"002","title":"LINEAR ALGEBRA","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":780,"end":830}],"divisions":["D3"]},{"crn":"12312","subject":"CHEM","number":"121","section":"S01","title":"GENERAL CHEMISTRY I","instructor":"Tran, Lesa","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":540,"end":590}],"divisions":["D3"]},{"crn":"12313","subject":"CHEM","number":"121","section":"S02","title":"GENERAL CHEMISTRY I","instructor":"Tran, Lesa","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D3"]},{"crn":"12314","subject":"CHEM","number":"121","section":"S03","title":"GENERAL CHEMISTRY I","instructor":"Tran, Lesa","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":780,"end":830}],"divisions":["D3"]},{"crn":"12412","subject":"ARTS","number":"311","section":"001","title":"BEGINNING PRINTMAKING","instructor":"Masterson, Patrick","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":1080,"end":1250}],"divisions":["D1"]},{"crn":"12414","subject":"BIOS","number":"329","section":"001","title":"ANIMAL DIVERSITY","instructor":"Rummel, Andrea","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D3"]},{"crn":"12422","subject":"COMP","number":"140","section":"001","title":"COMPUTATIONAL THINKING","instructor":"Fu, Xiaoyun","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D3"]},{"crn":"12423","subject":"COMP","number":"140","section":"003","title":"COMPUTATIONAL THINKING","instructor":"Johnson, Dave","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D3"]},{"crn":"12424","subject":"COMP","number":"140","section":"002","title":"COMPUTATIONAL THINKING","instructor":"Orooji, Marmar","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D3"]},{"crn":"12425","subject":"COMP","number":"140","section":"004","title":"COMPUTATIONAL THINKING","instructor":"Johnson, Dave","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D3"]},{"crn":"12458","subject":"ENGL","number":"305","section":"001","title":"INTRO CREATIVE NONFICT WRITING","instructor":"Boshier, Rosa","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["W"],"start":960,"end":1110}],"divisions":["D1"]},{"crn":"12477","subject":"ARCH","number":"207","section":"001","title":"TECHNOLOGY I","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D3"]},{"crn":"12486","subject":"MATH","number":"212","section":"S07","title":"MULTIVARIABLE CALCULUS","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":780,"end":830}],"divisions":["D3"]},{"crn":"12487","subject":"MATH","number":"211","section":"S01","title":"ORD DIFFERENTIAL EQUATIONS","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D3"]},{"crn":"12494","subject":"ARCH","number":"346","section":"001","title":"FOUNDATIONS IN ARCH II","instructor":"Geiser, Reto","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"12512","subject":"BIOS","number":"122","section":"002","title":"BIOLOGY FOR EVERYONE","instructor":"Johnson, Cassidy","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D3"]},{"crn":"12529","subject":"BIOS","number":"280","section":"002","title":"SUSTAINABLE DEVELOPMENT","instructor":"Abraham, David","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M"],"start":1080,"end":1250}],"divisions":["D3"]},{"crn":"12586","subject":"ENGL","number":"305","section":"002","title":"INTRO CREATIVE NONFICT WRITING","instructor":"Boshier, Rosa","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["W"],"start":960,"end":1110}],"divisions":["D1"]},{"crn":"12629","subject":"JAPA","number":"301","section":"001","title":"THIRD YEAR JAPANESE I","instructor":"Suzuki, Mamiko","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"12630","subject":"KORE","number":"263","section":"001","title":"SECOND YEAR KOREAN I","instructor":"Choi, Jaesu","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"12657","subject":"ARTS","number":"225","section":"003","title":"BEGINNING DRAWING","instructor":"Fowler, Will","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":1080,"end":1250}],"divisions":["D1"]},{"crn":"12668","subject":"MATH","number":"101","section":"S02","title":"SINGLE VARIABLE CALCULUS I","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D3"]},{"crn":"12669","subject":"MATH","number":"101","section":"S04","title":"SINGLE VARIABLE CALCULUS I","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D3"]},{"crn":"12670","subject":"MATH","number":"212","section":"S08","title":"MULTIVARIABLE CALCULUS","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D3"]},{"crn":"12691","subject":"FREN","number":"301","section":"001","title":"GRAMMAR AND CULTURAL LITERACY","instructor":"Emami, Maryam","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":840,"end":915}],"divisions":["D1"]},{"crn":"12704","subject":"BUSI","number":"395","section":"002","title":"DATA ANALYTICS","instructor":"Liu, Yueyang","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":565,"end":640},{"days":["T"],"start":600,"end":650}],"divisions":["D3"]},{"crn":"12705","subject":"BUSI","number":"395","section":"001","title":"DATA ANALYTICS","instructor":"Liu, Yueyang","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["T"],"start":540,"end":590},{"days":["M","W"],"start":565,"end":640}],"divisions":["D3"]},{"crn":"12722","subject":"LALX","number":"158","section":"001","title":"INTRO LATIN AMERICAN STUDIES","instructor":"Esch, Sophie","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D1"]},{"crn":"12733","subject":"ENGL","number":"272","section":"001","title":"LITERATURE AND MEDICINE","instructor":"Shwetz, Katherine","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"12734","subject":"MATH","number":"354","section":"002","title":"HONORS LINEAR ALGEBRA","instructor":"Wang, Stephen","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":780,"end":830}],"divisions":["D3"]},{"crn":"12738","subject":"FOTO","number":"205","section":"001","title":"INTRODUCTION TO PHOTOGRAPHY","instructor":"Greene, Elissa","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":950}],"divisions":["D1"]},{"crn":"12762","subject":"SPAN","number":"322","section":"011","title":"SPANISH FOR MEDICAL PROF II","instructor":"Boggiano, Aymara","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":540,"end":590}],"divisions":["D1"]},{"crn":"12799","subject":"ARTS","number":"165","section":"002","title":"BEGINNING SCULPTURE","instructor":"Lapinski, Lisa","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":1080,"end":1250}],"divisions":["D1"]},{"crn":"12831","subject":"SPAN","number":"158","section":"001","title":"INTRO LATIN AMERICAN STUDIES","instructor":"Esch, Sophie","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D1"]},{"crn":"12957","subject":"RELI","number":"101","section":"001","title":"WHAT IS RELIGION?","instructor":"Kripal, Jeffrey","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"12961","subject":"CMOR","number":"360","section":"001","title":"INTRO TO O.R. AND OPTIMIZATION","instructor":"Ramani, Sivaramakrishnan","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D3"]},{"crn":"12968","subject":"CMOR","number":"302","section":"001","title":"MATRIX ANALYSIS","instructor":"LaPole, Alyssa","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":840,"end":890}],"divisions":["D3"]},{"crn":"13023","subject":"ENGL","number":"301","section":"001","title":"INTRO TO FICTION WRITING","instructor":"Dermont, Amber","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T"],"start":960,"end":1110}],"divisions":["D1"]},{"crn":"13033","subject":"MATH","number":"355","section":"003","title":"LINEAR ALGEBRA","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D3"]},{"crn":"13042","subject":"CLAS","number":"107","section":"001","title":"GREEK CIVILIZATION & LEGACY","instructor":"Yunis, Harvey","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D1"]},{"crn":"13045","subject":"SPAN","number":"350","section":"001","title":"DIALECTS IN CONTACT","instructor":"Salaberry, Rafael","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T"],"start":960,"end":1110}],"divisions":["D1"]},{"crn":"13050","subject":"STAT","number":"310","section":"002","title":"PROBABILITY & STATISTICS","instructor":"Pizzo, Gina; Inman, Joshua","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D3"]},{"crn":"13051","subject":"ECON","number":"307","section":"002","title":"PROBABILITY & STATISTICS","instructor":"Pizzo, Gina; Inman, Joshua","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D3"]},{"crn":"13053","subject":"THEA","number":"300","section":"001","title":"INTRODUCTION TO THEATRE DESIGN","instructor":"Krouskop, Mark","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D1"]},{"crn":"13055","subject":"CHIN","number":"206","section":"001","title":"ACCEL CHIN - HERITAGE LEARNERS","instructor":"Hsu, Wei-Li","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":900,"end":950}],"divisions":["D1"]},{"crn":"13056","subject":"JAPA","number":"263","section":"002","title":"SECOND YEAR JAPANESE I","instructor":"Takayama, Hiromi","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"13064","subject":"EEPS","number":"101","section":"001","title":"THE EARTH","instructor":"Gordon, Richard G.","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D3"]},{"crn":"13100","subject":"CMOR","number":"220","section":"001","title":"INTRO TO ENG COMPUTATION","instructor":"Protasov, Anastasiya","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":780,"end":830},{"days":["W"],"start":1080,"end":1130}],"divisions":["D3"]},{"crn":"13101","subject":"CMOR","number":"220","section":"002","title":"INTRO TO ENG COMPUTATION","instructor":"Protasov, Anastasiya","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":780,"end":830},{"days":["W"],"start":1080,"end":1130}],"divisions":["D3"]},{"crn":"13102","subject":"CMOR","number":"220","section":"003","title":"INTRO TO ENG COMPUTATION","instructor":"Protasov, Anastasiya","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":780,"end":830},{"days":["W"],"start":1080,"end":1130}],"divisions":["D3"]},{"crn":"13103","subject":"CMOR","number":"220","section":"004","title":"INTRO TO ENG COMPUTATION","instructor":"Protasov, Anastasiya","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":780,"end":830},{"days":["W"],"start":1080,"end":1130}],"divisions":["D3"]},{"crn":"13104","subject":"CMOR","number":"220","section":"005","title":"INTRO TO ENG COMPUTATION","instructor":"Protasov, Anastasiya","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":780,"end":830},{"days":["R"],"start":1080,"end":1130}],"divisions":["D3"]},{"crn":"13105","subject":"CMOR","number":"220","section":"006","title":"INTRO TO ENG COMPUTATION","instructor":"Protasov, Anastasiya","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":780,"end":830},{"days":["R"],"start":1080,"end":1130}],"divisions":["D3"]},{"crn":"13106","subject":"CMOR","number":"220","section":"007","title":"INTRO TO ENG COMPUTATION","instructor":"Protasov, Anastasiya","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":780,"end":830},{"days":["R"],"start":1080,"end":1130}],"divisions":["D3"]},{"crn":"13107","subject":"CMOR","number":"220","section":"008","title":"INTRO TO ENG COMPUTATION","instructor":"Protasov, Anastasiya","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":780,"end":830},{"days":["F"],"start":1080,"end":1130}],"divisions":["D3"]},{"crn":"13108","subject":"CMOR","number":"220","section":"009","title":"INTRO TO ENG COMPUTATION","instructor":"Protasov, Anastasiya","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":780,"end":830},{"days":["F"],"start":1080,"end":1130}],"divisions":["D3"]},{"crn":"13111","subject":"HUMA","number":"107","section":"001","title":"GREEK CIVILIZATION & LEGACY","instructor":"Yunis, Harvey","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D1"]},{"crn":"13140","subject":"ENGL","number":"301","section":"002","title":"INTRO TO FICTION WRITING","instructor":"Dermont, Amber","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T"],"start":960,"end":1110}],"divisions":["D1"]},{"crn":"13148","subject":"SPAN","number":"406","section":"001","title":"LATIN AMERICAN CINEMA","instructor":"Cicerchia, Jose","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["W"],"start":960,"end":1110}],"divisions":["D1"]},{"crn":"13157","subject":"RELI","number":"142","section":"001","title":"THE COLORS OF LIFE","instructor":"Brennan, Marcia","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M"],"start":780,"end":950}],"divisions":["D1"]},{"crn":"13222","subject":"CMOR","number":"304","section":"002","title":"DIFF EQUATIONS SCI & ENG","instructor":"Zhang, Lu","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D3"]},{"crn":"13267","subject":"BIOS","number":"344","section":"S02","title":"MOLECULAR BIOLOGY & GENETICS","instructor":"Hennelly, Lauren","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D3"]},{"crn":"13279","subject":"CHEM","number":"219","section":"001","title":"ORGANIC CHEMISTRY I HONORS","instructor":"Kurti, Laszlo","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725},{"days":["F"],"start":960,"end":1025}],"divisions":["D3"]},{"crn":"13280","subject":"CHEM","number":"313","section":"S01","title":"ORGANIC CHEMISTRY II","instructor":"Hartgerink, Jeffrey","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D3"]},{"crn":"13550","subject":"MUSI","number":"117","section":"003","title":"FUNDAMENTALS OF MUSIC I","instructor":"Shea, Fiona","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"13555","subject":"MUSI","number":"317","section":"004","title":"THEORY FOR NON MAJORS I","instructor":"Sharpe, Ella","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"13706","subject":"HIST","number":"217","section":"002","title":"HISTORY: THE WORKSHOP","instructor":"Irish, Maya","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":840,"end":890}],"divisions":["D1"]},{"crn":"13727","subject":"ENGL","number":"286","section":"001","title":"CLASSICAL & CONTEMPORARY FILM","instructor":"Snow, Edward","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"13728","subject":"HART","number":"286","section":"001","title":"CLASSICAL & CONTEMPORARY FILM","instructor":"Snow, Edward","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"13749","subject":"CHIN","number":"311","section":"001","title":"ACCEL INTERMEDIATE CHINESE I","instructor":"Fu, Liang","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":840,"end":890}],"divisions":["D1"]},{"crn":"13751","subject":"KORE","number":"301","section":"001","title":"THIRD YEAR KOREAN I","instructor":"Oh, Eun Young","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":780,"end":830}],"divisions":["D1"]},{"crn":"13752","subject":"SPAN","number":"204","section":"001","title":"SPANISH HERITAGE STUDENTS II","instructor":"Diaz Montalvo, Thais","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":720,"end":770}],"divisions":["D1"]},{"crn":"13771","subject":"MATH","number":"101","section":"S06","title":"SINGLE VARIABLE CALCULUS I","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":780,"end":830}],"divisions":["D3"]},{"crn":"13773","subject":"MATH","number":"102","section":"S02","title":"SINGLE VARIABLE CALCULUS II","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D3"]},{"crn":"13775","subject":"MATH","number":"221","section":"S01","title":"HONORS CALCULUS III","instructor":"Mantoulidis, Christos","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D3"]},{"crn":"13790","subject":"HART","number":"209","section":"001","title":"BEGINNING DIGITAL PHOTOGRAPHY","instructor":"Oliver, Demetrius","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":960,"end":1035}],"divisions":["D1"]},{"crn":"13794","subject":"MATH","number":"220","section":"001","title":"HONORS ORD DIFFERENTIAL EQNS","instructor":"Elliott Smith, Rosemary","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D3"]},{"crn":"13799","subject":"MDHM","number":"201","section":"002","title":"INTRO TO MEDICAL HUMANITIES","instructor":"Hemming, Matilda","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"13939","subject":"BUSI","number":"395","section":"004","title":"DATA ANALYTICS","instructor":"Liu, Yueyang","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":660,"end":735},{"days":["T"],"start":660,"end":710}],"divisions":["D3"]},{"crn":"13940","subject":"BUSI","number":"395","section":"005","title":"DATA ANALYTICS","instructor":"Liu, Yueyang","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":660,"end":735},{"days":["T"],"start":900,"end":950}],"divisions":["D3"]},{"crn":"13943","subject":"BIOS","number":"338","section":"001","title":"BIO DATA ANALYSIS","instructor":"Miller, Thomas","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":780,"end":830}],"divisions":["D3"]},{"crn":"13993","subject":"RELI","number":"250","section":"001","title":"RELIGION AND SCIENCE","instructor":"Brunton, Judith Ellen","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":540,"end":590}],"divisions":["D1"]},{"crn":"14170","subject":"ELEC","number":"220","section":"002","title":"FUND COMPUTER ENGINEERING","instructor":"Simar, Ray","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D3"]},{"crn":"14457","subject":"PHIL","number":"130","section":"001","title":"THE SCIENCES OF THE MIND","instructor":"Schroeder, Tim","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":540,"end":590}],"divisions":["D1"]},{"crn":"14460","subject":"PHIL","number":"160","section":"003","title":"MORAL PROBLEMS","instructor":"Berg, Amy","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"14461","subject":"PHIL","number":"210","section":"002","title":"LOGIC","instructor":"Miller, Brian","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D3"]},{"crn":"14464","subject":"PHIL","number":"281","section":"002","title":"HISTORY OF PHILOSOPHY I","instructor":"Siewert, Charles","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":540,"end":590}],"divisions":["D1"]},{"crn":"14465","subject":"PHIL","number":"318","section":"001","title":"PHILOSOPHY OF LANGUAGE","instructor":"Miller, Brian","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"14487","subject":"SWGS","number":"100","section":"001","title":"WOMEN, GENDER, AND SEXUALITY","instructor":"Choi, Da In","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"14549","subject":"MDHM","number":"359","section":"001","title":"RESPONSIBLE AI FOR HEALTH","instructor":"Ostherr, Kirsten","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"14603","subject":"MDHM","number":"142","section":"001","title":"THE COLORS OF LIFE","instructor":"Brennan, Marcia","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M"],"start":780,"end":950}],"divisions":["D1"]},{"crn":"14609","subject":"RELI","number":"375","section":"001","title":"EPIPHANIES","instructor":"Brennan, Marcia","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["W"],"start":780,"end":950}],"divisions":["D1"]},{"crn":"14644","subject":"HART","number":"230","section":"001","title":"EARLY MEDIEVAL","instructor":"Gallant, Denva","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":960,"end":1035}],"divisions":["D1"]},{"crn":"14645","subject":"MDEM","number":"230","section":"001","title":"EARLY MEDIEVAL","instructor":"Gallant, Denva","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":960,"end":1035}],"divisions":["D1"]},{"crn":"14668","subject":"MDHM","number":"272","section":"001","title":"LITERATURE AND MEDICINE","instructor":"Shwetz, Katherine","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"14669","subject":"MDHM","number":"272","section":"002","title":"LITERATURE AND MEDICINE","instructor":"Hammon, Cameron","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":840,"end":890}],"divisions":["D1"]},{"crn":"14670","subject":"ENGL","number":"272","section":"002","title":"LITERATURE AND MEDICINE","instructor":"Hammon, Cameron","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":840,"end":890}],"divisions":["D1"]},{"crn":"14676","subject":"ENGL","number":"320","section":"001","title":"SHAKESPEARE ON FILM","instructor":"Campana, Joseph","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D1"]},{"crn":"14709","subject":"THEA","number":"101","section":"001","title":"THEA TECH: COSTUME CONSTRUCTON","instructor":"Stepanik, Amber","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":840,"end":915}],"divisions":["D1"]},{"crn":"14710","subject":"THEA","number":"303","section":"001","title":"INTRODUCTION TO THEATRE","instructor":"Kimbro, Robert","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"14711","subject":"ENGL","number":"390","section":"001","title":"INTRODUCTION TO THEATRE","instructor":"Kimbro, Robert","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"14730","subject":"EEPS","number":"111","section":"001","title":"INHABITING PLANET EARTH","instructor":"Siebach, Kirsten","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D3"]},{"crn":"14784","subject":"ARAB","number":"301","section":"001","title":"THIRD YEAR ARABIC I","instructor":"Elsherbiny, Hossam","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"14790","subject":"PORT","number":"301","section":"001","title":"THIRD YEAR PORTUGUESE I","instructor":"P Valadares, Marcus","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"14792","subject":"SPAN","number":"322","section":"031","title":"SPAN:BUSINS & PROFSNL WORLD II","instructor":"Garcia-Rueda, Claudia","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"14798","subject":"HIST","number":"248","section":"001","title":"AFRICA AND THE GLOBAL COLD WAR","instructor":"Osei-Opare, Nana","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D1"]},{"crn":"14800","subject":"ENGL","number":"249","section":"001","title":"BOB DYLAN: MUSIC POLITICS RACE","instructor":"Derrick, Scott","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":960,"end":1035}],"divisions":["D1"]},{"crn":"14802","subject":"ENGL","number":"251","section":"001","title":"READING POETRY","instructor":"Campana, Joseph","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D1"]},{"crn":"14811","subject":"CLAS","number":"101","section":"001","title":"INTRO TO CLASSICS","instructor":"McGill, Scott","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":960,"end":1010}],"divisions":["D1"]},{"crn":"14830","subject":"RELI","number":"150","section":"001","title":"SACRED BIRTH","instructor":"Brunton, Judith Ellen","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M"],"start":1020,"end":1170}],"divisions":["D1"]},{"crn":"14837","subject":"ASIA","number":"215","section":"001","title":"KOREAN WAVE","instructor":"Ryang, Sonia; Kim, Jaymin","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["R"],"start":870,"end":1020}],"divisions":["D1"]},{"crn":"14839","subject":"ASIA","number":"220","section":"001","title":"SCIENCE IN CHINA","instructor":"Xu, Chang","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D1"]},{"crn":"14842","subject":"MATH","number":"211","section":"S03","title":"ORD DIFFERENTIAL EQUATIONS","instructor":"","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":540,"end":590}],"divisions":["D3"]},{"crn":"14844","subject":"MATH","number":"302","section":"001","title":"ELEMENTS OF ANALYSIS","instructor":"Orcan Ekmekci, Betul","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":780,"end":830}],"divisions":["D3"]},{"crn":"14845","subject":"MATH","number":"331","section":"001","title":"HONORS ANALYSIS","instructor":"Katz, Nets","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D3"]},{"crn":"14861","subject":"THEA","number":"102","section":"002","title":"INTRODUCTION TO ACTING","instructor":"Clark, Kyle","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"14900","subject":"ARTS","number":"225","section":"002","title":"BEGINNING DRAWING","instructor":"Bernstein, Josh","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":780,"end":950}],"divisions":["D1"]},{"crn":"14910","subject":"ARTS","number":"301","section":"002","title":"BEGINNING PAINTING","instructor":"Fowler, Will","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":780,"end":950}],"divisions":["D1"]},{"crn":"14918","subject":"HART","number":"209","section":"002","title":"BEGINNING DIGITAL PHOTOGRAPHY","instructor":"Oliver, Demetrius","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":1080,"end":1155}],"divisions":["D1"]},{"crn":"14960","subject":"HART","number":"328","section":"001","title":"EPIPHANIES","instructor":"Brennan, Marcia","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["W"],"start":780,"end":950}],"divisions":["D1"]},{"crn":"14979","subject":"AAAS","number":"248","section":"001","title":"AFRICA AND THE GLOBAL COLD WAR","instructor":"Osei-Opare, Nana","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D1"]},{"crn":"15009","subject":"FOTO","number":"205","section":"002","title":"INTRODUCTION TO PHOTOGRAPHY","instructor":"Greene, Elissa","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":1080,"end":1250}],"divisions":["D1"]},{"crn":"15016","subject":"ENGL","number":"301","section":"003","title":"INTRO TO FICTION WRITING","instructor":"Bajani, Andrea","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D1"]},{"crn":"15020","subject":"ARTS","number":"230","section":"001","title":"COMICS AND SEQUENTIAL ART","instructor":"Sperandio, Christopher","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":950}],"divisions":["D1"]},{"crn":"15025","subject":"ENGL","number":"301","section":"004","title":"INTRO TO FICTION WRITING","instructor":"Bajani, Andrea","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D1"]},{"crn":"15032","subject":"FILM","number":"275","section":"001","title":"COMICS AND SEQUENTIAL ART","instructor":"Sperandio, Christopher","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":950}],"divisions":["D1"]},{"crn":"15072","subject":"ELEC","number":"383","section":"001","title":"WEARABLE BIOSENSORS","instructor":"Sempionatto Moreto, Juliane","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":960,"end":1035}],"divisions":["D3"]},{"crn":"15109","subject":"MSNE","number":"201","section":"002","title":"MATERIALS FOR THE FUTURE","instructor":"Martin, Lane; Zednik, Ricardo J.","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D3"]},{"crn":"15113","subject":"BIOS","number":"207","section":"001","title":"GARDEN SCIENCE","instructor":"Novak, Joseph","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["F"],"start":840,"end":960},{"days":["T"],"start":960,"end":1080}],"divisions":["D3"]},{"crn":"15114","subject":"COMP","number":"182","section":"001","title":"ALGORITHMIC THINKING","instructor":"Fu, Xiaoyun","credits":4,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D3"]},{"crn":"15115","subject":"ENST","number":"205","section":"002","title":"RECKONING W/ THE ANTHROPOCENE","instructor":"Schneider-Mayerson, Matthew","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":960,"end":1035}],"divisions":["D1"]},{"crn":"15210","subject":"LATI","number":"201","section":"002","title":"INTERMEDIATE LATIN I: PROSE","instructor":"Wright, Susannah","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D1"]},{"crn":"15323","subject":"MDEM","number":"211","section":"002","title":"INTERMEDIATE LATIN I: PROSE","instructor":"Wright, Susannah","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D1"]},{"crn":"15435","subject":"JAPA","number":"263","section":"001","title":"SECOND YEAR JAPANESE I","instructor":"Takayama, Hiromi","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":720,"end":770}],"divisions":["D1"]},{"crn":"15457","subject":"ENST","number":"301","section":"002","title":"ENVIRONMENTAL JUSTICE","instructor":"Potts, Rebecca","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":840,"end":890}],"divisions":["D1"]},{"crn":"15509","subject":"BIOE","number":"345","section":"001","title":"APPLICATIONS IN AI AND CHAT GP","instructor":"King, Michael","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":840,"end":915}],"divisions":["D3"]},{"crn":"15516","subject":"BIOS","number":"341","section":"7S1","title":"CELL BIOLOGY","instructor":"Braam, Janet; Phillips, Dereth","credits":3,"partOfTerm":"Rice in Paris 1","meetings":[{"days":["M","T","W","R"],"start":565,"end":640}],"divisions":["D3"]},{"crn":"15616","subject":"MDIA","number":"204","section":"001","title":"INTRODUCTION TO MEDIA STUDIES","instructor":"Mayes, Liam","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"15767","subject":"HART","number":"101","section":"001","title":"INTRO TO HIST OF ART I","instructor":"Crawford-Brown, Sophie; Gallant, Denva","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":540,"end":590}],"divisions":["D1"]},{"crn":"15768","subject":"HART","number":"118","section":"001","title":"GLOBAL ARCHITECTURE HIST I","instructor":"El-Dahdah, Fares","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"15769","subject":"HART","number":"205","section":"001","title":"ART SINCE 1945","instructor":"Hughes, Gordon; Franco, Ana","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D1"]},{"crn":"15771","subject":"HART","number":"343","section":"001","title":"MASTERS OF THE BAROQUE ERA","instructor":"Manca, Joseph","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"15773","subject":"HART","number":"389","section":"001","title":"JUSTICE AND CINEMA","instructor":"Oukaderova, Lida","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["W"],"start":780,"end":930}],"divisions":["D1"]},{"crn":"15788","subject":"ENGL","number":"111","section":"001","title":"BANNED BOOKS","instructor":"Srinivasan, Ragini Tharoor","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"15789","subject":"ENGL","number":"200","section":"001","title":"GATEWAYS TO LITERARY STUDY","instructor":"Ellenzweig, Sarah","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"15790","subject":"ENGL","number":"200","section":"002","title":"GATEWAYS TO LITERARY STUDY","instructor":"Derrick, Scott","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"15792","subject":"ENGL","number":"211","section":"001","title":"BRIT LIT ROMANTICISM TO 20TH C","instructor":"Browning, Logan","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":780,"end":830}],"divisions":["D1"]},{"crn":"15794","subject":"ENGL","number":"250","section":"001","title":"THE NOVEL & ITS CULTURAL POWER","instructor":"King, Heather","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":540,"end":590}],"divisions":["D1"]},{"crn":"15795","subject":"ENGL","number":"260","section":"001","title":"WHAT IS AMERICAN LITERATURE","instructor":"Lacy, Maddie","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"15796","subject":"ENGL","number":"268","section":"001","title":"INTRO NATIVE AMERICAN LIT","instructor":"Louthain, Kate","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"15798","subject":"ENGL","number":"304","section":"001","title":"INTRO TO POETRY WRITING","instructor":"Morin, Tomas","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["W"],"start":840,"end":990}],"divisions":["D1"]},{"crn":"15800","subject":"ENGL","number":"305","section":"003","title":"INTRO CREATIVE NONFICT WRITING","instructor":"Boshier, Rosa","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["R"],"start":960,"end":1110}],"divisions":["D1"]},{"crn":"15802","subject":"ENGL","number":"317","section":"001","title":"ARTHURIAN LITERATURE","instructor":"Houlik-Ritchey, Emily","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"15803","subject":"ENGL","number":"341","section":"001","title":"VICTORIAN LITERATURE & CULTURE","instructor":"Browning, Logan","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"15805","subject":"ENGL","number":"360","section":"001","title":"AMERICAN LIT BEFORE CIVIL WAR","instructor":"Williamson, Clinton","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D1"]},{"crn":"15807","subject":"ENGL","number":"368","section":"001","title":"LITERATURE AND THE ENVIRONMENT","instructor":"Hill, Chaney","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"15808","subject":"ENGL","number":"370","section":"001","title":"AFRICAN AMERICAN LITERATURE","instructor":"Williams, Phillip","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T"],"start":1080,"end":1230}],"divisions":["D1"]},{"crn":"15809","subject":"SWGS","number":"370","section":"001","title":"AFRICAN AMERICAN LITERATURE","instructor":"Williams, Phillip","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T"],"start":1080,"end":1230}],"divisions":["D1"]},{"crn":"15810","subject":"ENGL","number":"383","section":"001","title":"GLOBAL FICTIONS","instructor":"Joseph, Betty","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":960,"end":1035}],"divisions":["D1"]},{"crn":"15830","subject":"MUSI","number":"125","section":"001","title":"RESISTANCE AND PROTEST","instructor":"Botti, Anna-Sofia","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":540,"end":590}],"divisions":["D1"]},{"crn":"15831","subject":"MUSI","number":"125","section":"002","title":"REMIX, COVER, & PARODY","instructor":"Jones, Martin","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"15832","subject":"MUSI","number":"225","section":"001","title":"HISTORY OF ROCK","instructor":"Broess, Erik","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"15862","subject":"PHIL","number":"125","section":"001","title":"PHILOSOPHY THROUGH ARTWORKS","instructor":"Kriegel, Uriah","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"15863","subject":"PHIL","number":"150","section":"003","title":"TECHNOLOGY, SOCIETY AND VALUE","instructor":"Gubka, Steven","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D1"]},{"crn":"15864","subject":"PHIL","number":"320","section":"001","title":"METAPHYSICS","instructor":"Kriegel, Uriah","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":840,"end":915}],"divisions":["D1"]},{"crn":"15865","subject":"PHIL","number":"360","section":"003","title":"ETHICS","instructor":"Sher, George","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D1"]},{"crn":"15866","subject":"PHIL","number":"372","section":"001","title":"HIST SOCIAL & POLITICAL PHILOS","instructor":"Heisenberg, Thimo","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"15872","subject":"RELI","number":"105","section":"001","title":"MEDIEVAL CHRISTIAN THOUGHT","instructor":"Schwarze, Zach","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"15874","subject":"RELI","number":"115","section":"001","title":"BLACK GODS OF THE CARIBBEAN","instructor":"Nwokocha, Eziaku","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["W"],"start":960,"end":1110}],"divisions":["D1"]},{"crn":"15875","subject":"RELI","number":"123","section":"001","title":"INTRO TO WORLD CHRISTIANITY","instructor":"Bongmba, Elias K.","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":480,"end":555}],"divisions":["D1"]},{"crn":"15876","subject":"RELI","number":"334","section":"001","title":"PSYCHOLOGY OF RELIGION","instructor":"Parsons, William","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"15877","subject":"RELI","number":"337","section":"001","title":"SHAMANS, SAINTS, & SAGES","instructor":"Parsons, William","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"15878","subject":"RELI","number":"424","section":"001","title":"RELIGION & POLITICS IN AFRICA","instructor":"Bongmba, Elias K.","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D1"]},{"crn":"15884","subject":"PLST","number":"201","section":"001","title":"POLITICS, LAW & ETHICS","instructor":"Bruno-Niño, Teresa","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D1"]},{"crn":"15897","subject":"MATH","number":"304","section":"001","title":"ELEMENTS OF KNOT THEORY","instructor":"Castro, Nickolas","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D3"]},{"crn":"15930","subject":"ASIA","number":"229","section":"001","title":"MODERN EAST ASIA","instructor":"Lu, Sidney","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"15931","subject":"KORE","number":"332","section":"002","title":"COLLOQUIAL KOREAN THRU VISUALS","instructor":"Choi, Jaesu","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":840,"end":890}],"divisions":["D1"]},{"crn":"15947","subject":"EEPS","number":"110","section":"001","title":"EARTH, ENVIRONMENT, & SOCIETY","instructor":"Diedesch, Tim","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":780,"end":830}],"divisions":["D3"]},{"crn":"15989","subject":"ARTS","number":"165","section":"003","title":"BEGINNING SCULPTURE","instructor":"Mays, Devin","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":540,"end":710}],"divisions":["D1"]},{"crn":"15990","subject":"ARTS","number":"165","section":"004","title":"BEGINNING SCULPTURE","instructor":"Tam, Kenneth","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":950}],"divisions":["D1"]},{"crn":"15991","subject":"ARTS","number":"235","section":"001","title":"COLOR","instructor":"Hewitt, Leslie","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["W"],"start":540,"end":710}],"divisions":["D1"]},{"crn":"15992","subject":"ARTS","number":"301","section":"005","title":"BEGINNING PAINTING","instructor":"Bowdoin, Natasha","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":540,"end":710}],"divisions":["D1"]},{"crn":"15994","subject":"FILM","number":"328","section":"001","title":"FILMMAKING I","instructor":"Katz, Hazel","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"15995","subject":"FOTO","number":"298","section":"001","title":"EXPERIMENTAL PHOTOGRAPHY","instructor":"Greene, Elissa","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["W"],"start":780,"end":950}],"divisions":["D1"]},{"crn":"15997","subject":"HIST","number":"101","section":"001","title":"MODERN EUROPE, 1500-1789","instructor":"Wildenthal, Lora","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":900,"end":950}],"divisions":["D1"]},{"crn":"15999","subject":"HIST","number":"112","section":"002","title":"MODERN PALESTINIAN HISTORY","instructor":"Takriti, Abdel Razzaq","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"16000","subject":"HIST","number":"117","section":"002","title":"EARLY AMERICA TO THE CIVIL WAR","instructor":"Yarbrough, Fay","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":540,"end":590}],"divisions":["D1"]},{"crn":"16002","subject":"HIST","number":"120","section":"002","title":"MEDIEVAL CIVILIZATIONS","instructor":"Irish, Maya","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"16003","subject":"HIST","number":"206","section":"002","title":"THE TROJAN WAR","instructor":"Wright, Susannah","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":780,"end":830}],"divisions":["D1"]},{"crn":"16004","subject":"CLAS","number":"206","section":"002","title":"THE TROJAN WAR","instructor":"Wright, Susannah","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":780,"end":830}],"divisions":["D1"]},{"crn":"16005","subject":"HIST","number":"215","section":"001","title":"BLACKS IN THE AMERICAS","instructor":"Bryant, Sherwin","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":960,"end":1035}],"divisions":["D1"]},{"crn":"16006","subject":"HIST","number":"221","section":"001","title":"US - LATIN AMERICAN RELATIONS","instructor":"Suarez-Potts, William","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"16007","subject":"HIST","number":"225","section":"001","title":"EUROPE SINCE 1945","instructor":"Cohen, Daniel","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":840,"end":915}],"divisions":["D1"]},{"crn":"16008","subject":"HIST","number":"244","section":"001","title":"MUSEUMS IN WORLD HISTORY","instructor":"Ward, Kerry","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"16013","subject":"HIST","number":"312","section":"001","title":"ENVIRONMENT & HEALTH IN LAT AM","instructor":"Lopez Alonso, Moramay","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"16014","subject":"HIST","number":"345","section":"001","title":"THE U.S. AND ASIA","instructor":"Shimizu, Sayuri","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D1"]},{"crn":"16016","subject":"HIST","number":"373","section":"001","title":"19TH C SOC/POLITICAL THOUGHT","instructor":"Caldwell, Carl","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D1"]},{"crn":"16089","subject":"STAT","number":"310","section":"003","title":"PROBABILITY & STATISTICS","instructor":"Muralidharan, Arya","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":840,"end":915}],"divisions":["D3"]},{"crn":"16090","subject":"ECON","number":"307","section":"003","title":"PROBABILITY & STATISTICS","instructor":"Muralidharan, Arya","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":840,"end":915}],"divisions":["D3"]},{"crn":"16111","subject":"EEPS","number":"108","section":"001","title":"NATURAL DISASTERS","instructor":"French, Melodie","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D3"]},{"crn":"16126","subject":"MDIA","number":"202","section":"001","title":"HISTORY OF CINEMA AND MEDIA II","instructor":"Oukaderova, Lida","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":960,"end":1035}],"divisions":["D1"]},{"crn":"16148","subject":"RELI","number":"202","section":"001","title":"WHAT IS TIME?","instructor":"Henze, Matthias","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":960,"end":1010}],"divisions":["D1"]},{"crn":"16153","subject":"PHIL","number":"100","section":"004","title":"INTRODUCTION TO PHILOSOPHY","instructor":"Skretta, Anton","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"16154","subject":"CLAS","number":"336","section":"001","title":"INTRO TO INDO-EUROPEAN","instructor":"Somerville, Ted","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"16155","subject":"LING","number":"336","section":"001","title":"INTRO TO INDO-EUROPEAN","instructor":"Somerville, Ted","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"16156","subject":"FREN","number":"312","section":"001","title":"THE FRENCH REVOLUTION TO WWII","instructor":"Duquet, Valentin","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"16157","subject":"GERM","number":"280","section":"002","title":"HISTORY OF CINEMA AND MEDIA I","instructor":"Blumenthal-Barby, Martin","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"16159","subject":"MDIA","number":"201","section":"002","title":"HISTORY OF CINEMA AND MEDIA I","instructor":"Blumenthal-Barby, Martin","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"16160","subject":"GERM","number":"332","section":"001","title":"NEW GERMAN CINEMA","instructor":"Blumenthal-Barby, Martin","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"16161","subject":"GERM","number":"333","section":"001","title":"NIETZSCHE","instructor":"Emden, Christian","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"16165","subject":"SPAN","number":"332","section":"002","title":"APPROACHES HISPANIC LITERATURE","instructor":"Park, Paula; Castro, Azucena","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D1"]},{"crn":"16167","subject":"SPAN","number":"406","section":"002","title":"LATIN AMERICAN CINEMA","instructor":"Duno-Gottberg, Luis","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["R"],"start":960,"end":1110}],"divisions":["D1"]},{"crn":"16169","subject":"SPAN","number":"456","section":"001","title":"LATIN AMERICAN WOMEN'S CULTURE","instructor":"Branigan, Claire","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"16170","subject":"SWGS","number":"466","section":"001","title":"LATIN AMERICAN WOMEN'S CULTURE","instructor":"Branigan, Claire","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"16174","subject":"MDIA","number":"251","section":"001","title":"TV TO TIKTOK: EVERYDAY MEDIA","instructor":"Mayes, Liam","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":960,"end":1035}],"divisions":["D1"]},{"crn":"16176","subject":"ASIA","number":"206","section":"001","title":"PRINT CULTURES IN SOUTH ASIA","instructor":"Chatterjee, Sourav","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"16177","subject":"ASIA","number":"207","section":"001","title":"GENDER/POWER IN SOUTH ASIA","instructor":"Chatterjee, Sourav","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":960,"end":1035}],"divisions":["D1"]},{"crn":"16178","subject":"ASIA","number":"234","section":"001","title":"RELIGION AND ART IN JAPAN","instructor":"Huntington, Eric","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D1"]},{"crn":"16180","subject":"HUMA","number":"143","section":"001","title":"WHAT IS A BORDER?","instructor":"Linhard, Tabea","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"16181","subject":"PHIL","number":"155","section":"001","title":"PHILOSOPHY OF NEUROSCIENCE","instructor":"Schroeder, Tim","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":780,"end":830}],"divisions":["D1"]},{"crn":"16185","subject":"GERM","number":"281","section":"001","title":"POSTHUMANISM","instructor":"Suetterlin, Nicole","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T"],"start":960,"end":1110}],"divisions":["D1"]},{"crn":"16186","subject":"HART","number":"234","section":"001","title":"RELIGION AND ART IN JAPAN","instructor":"Huntington, Eric","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":565,"end":640}],"divisions":["D1"]},{"crn":"16187","subject":"HART","number":"232","section":"001","title":"ART OF MEXICO","instructor":"Diel, Lori","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"16195","subject":"FREN","number":"330","section":"001","title":"RHYTHMS AND SOUNDS IN FRENCH","instructor":"Fache, Caroline","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":660,"end":735}],"divisions":["D1"]},{"crn":"16203","subject":"HIST","number":"265","section":"001","title":"CUNEIFORM TO CODING","instructor":"Tomasson, Julia","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"16217","subject":"ENGL","number":"109","section":"001","title":"J.R.R. TOLKIEN","instructor":"Kraebel, Andrew","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"16229","subject":"HUMA","number":"142","section":"001","title":"CAN YOU TAKE A JOKE?","instructor":"Thomsen, Carly; Dango, Michael","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":840,"end":915}],"divisions":["D1"]},{"crn":"16236","subject":"HIST","number":"270","section":"001","title":"REFORMATIONS","instructor":"Mogen, Philip","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"16274","subject":"MDEM","number":"120","section":"001","title":"MEDIEVAL CIVILIZATIONS","instructor":"Irish, Maya","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"16276","subject":"ENST","number":"211","section":"001","title":"CINEMA AND THE ENVIRONMENT","instructor":"Hill, Chaney","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":960,"end":1035}],"divisions":["D1"]},{"crn":"16278","subject":"HIST","number":"210","section":"001","title":"REMEMBERING PAINFUL PASTS","instructor":"Bettin-Coleman, Morgan","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":780,"end":830}],"divisions":["D1"]},{"crn":"16288","subject":"CLAS","number":"102","section":"001","title":"INTRO TO HIST OF ART I","instructor":"Crawford-Brown, Sophie; Gallant, Denva","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":540,"end":590}],"divisions":["D1"]},{"crn":"16289","subject":"MDEM","number":"111","section":"001","title":"INTRO TO HIST OF ART I","instructor":"Crawford-Brown, Sophie; Gallant, Denva","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":540,"end":590}],"divisions":["D1"]},{"crn":"16291","subject":"MDEM","number":"343","section":"001","title":"MASTERS OF THE BAROQUE ERA","instructor":"Manca, Joseph","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"16292","subject":"MDEM","number":"317","section":"001","title":"ARTHURIAN LITERATURE","instructor":"Houlik-Ritchey, Emily","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"16293","subject":"SWGS","number":"301","section":"001","title":"ARTHURIAN LITERATURE","instructor":"Houlik-Ritchey, Emily","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":780,"end":855}],"divisions":["D1"]},{"crn":"16298","subject":"ENST","number":"368","section":"001","title":"LITERATURE AND THE ENVIRONMENT","instructor":"Hill, Chaney","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"16300","subject":"MDEM","number":"105","section":"001","title":"MEDIEVAL CHRISTIAN THOUGHT","instructor":"Schwarze, Zach","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"16301","subject":"AAAS","number":"115","section":"001","title":"BLACK GODS OF THE CARIBBEAN","instructor":"Nwokocha, Eziaku","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["W"],"start":960,"end":1110}],"divisions":["D1"]},{"crn":"16309","subject":"ARTS","number":"328","section":"001","title":"FILMMAKING I","instructor":"Katz, Hazel","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":650,"end":725}],"divisions":["D1"]},{"crn":"16313","subject":"MDEM","number":"109","section":"001","title":"J.R.R. TOLKIEN","instructor":"Kraebel, Andrew","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":600,"end":650}],"divisions":["D1"]},{"crn":"16316","subject":"ENGL","number":"304","section":"002","title":"INTRO TO POETRY WRITING","instructor":"Morin, Tomas","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["W"],"start":840,"end":990}],"divisions":["D1"]},{"crn":"16317","subject":"ENGL","number":"305","section":"004","title":"INTRO CREATIVE NONFICT WRITING","instructor":"Boshier, Rosa","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["R"],"start":960,"end":1110}],"divisions":["D1"]},{"crn":"16322","subject":"RELI","number":"124","section":"701","title":"RELIGION & ART OF HAPPINESS","instructor":"Clements, Niki","credits":3,"partOfTerm":"Rice in Paris - Full Term","meetings":[],"divisions":["D1"]},{"crn":"16325","subject":"CLAS","number":"285","section":"001","title":"GOD, TIME & HISTORY","instructor":"Henze, Matthias; McGill, Scott","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"16326","subject":"RELI","number":"285","section":"001","title":"GOD, TIME & HISTORY","instructor":"Henze, Matthias; McGill, Scott","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":660,"end":710}],"divisions":["D1"]},{"crn":"16334","subject":"MDIA","number":"211","section":"001","title":"CINEMA AND THE ENVIRONMENT","instructor":"Hill, Chaney","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":960,"end":1035}],"divisions":["D1"]},{"crn":"16345","subject":"ASIA","number":"203","section":"001","title":"EMPIRE ON HORSEBACK","instructor":"Balabanlilar, Lisa","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":755,"end":830}],"divisions":["D1"]},{"crn":"16360","subject":"NSCI","number":"220","section":"001","title":"FUNDAMENTALS OF SCI COMM","instructor":"Solomon, Scott","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":480,"end":555}],"divisions":["D3"]},{"crn":"16414","subject":"MUSI","number":"317","section":"005","title":"THEORY FOR NON MAJORS I","instructor":"Lanners, Ben","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":780,"end":830}],"divisions":["D1"]},{"crn":"16432","subject":"RELI","number":"245","section":"701","title":"DEMONS/MENTAL ILLNESS/MEDICINE","instructor":"Clements, Niki","credits":3,"partOfTerm":"Rice in Paris - Full Term","meetings":[],"divisions":["D1"]},{"crn":"16433","subject":"MDEM","number":"245","section":"701","title":"DEMONS/MENTAL ILLNESS/MEDICINE","instructor":"Clements, Niki","credits":3,"partOfTerm":"Rice in Paris - Full Term","meetings":[],"divisions":["D1"]},{"crn":"16456","subject":"FOTO","number":"210","section":"003","title":"BEGINNING DIGITAL PHOTOGRAPHY","instructor":"Oliver, Demetrius","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":960,"end":1035}],"divisions":["D1"]},{"crn":"16460","subject":"FOTO","number":"210","section":"004","title":"BEGINNING DIGITAL PHOTOGRAPHY","instructor":"Oliver, Demetrius","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W"],"start":1080,"end":1155}],"divisions":["D1"]},{"crn":"16472","subject":"ITAL","number":"263","section":"002","title":"SECOND YEAR ITALIAN I","instructor":"Giliberti, Maria","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M","W","F"],"start":780,"end":830}],"divisions":["D1"]},{"crn":"16475","subject":"ASIA","number":"103","section":"003","title":"ASIAN FOOD","instructor":"Ryang, Sonia","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["M"],"start":930,"end":1080}],"divisions":["D1"]},{"crn":"16569","subject":"CEVE","number":"208","section":"001","title":"MATERIALS BEHIND MODERN LIFE","instructor":"Lin, Shihong","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":870,"end":945}],"divisions":["D3"]},{"crn":"16588","subject":"COMP","number":"101","section":"001","title":"VIBE CODING WITH LLMS","instructor":"Warren, Joe D.","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":960,"end":1035}],"divisions":["D3"]},{"crn":"16598","subject":"PHIL","number":"102","section":"001","title":"INTRODUCTION TO ETHICS","instructor":"Gubka, Steven","credits":3,"partOfTerm":"Full Term","meetings":[{"days":["T","R"],"start":960,"end":1035}],"divisions":["D1"]}];  //__EXTRA_CATALOG__
+const GRID_START = 8*60;   // 8:00 AM
+const GRID_END = 21*60;    // 9:00 PM
+const PX_PER_MIN = 48/60;  // 48px per hour
+
+/* ---------------- Default seed data ---------------- */
+function seedState() {
+  // Completed courses from Jackson Darr's Rice transcript (in-progress Fall 2026 excluded).
+  // Division tags (D1/D2/D3) below are first-pass SUGGESTIONS — verify against the official list.
+  const T = (subject,number,title,credits,grade,term,divisions)=>(
+    {id:uid(), subject, number, title, credits, grade, term, divisions:divisions||[]});
+  const transcript = [
+    // Transfer / AP
+    T("CEVE","100","AP/OTH Credit Environ Science",3,"TR","AP / Transfer",["D3"]),
+    // Fall 2024
+    T("BUSI","221","New Enterprises: Discovery",3,"A","Fall 2024",[]),
+    T("BUSI","310","Leading in Organizations",3,"A-","Fall 2024",[]),
+    T("BUSI","360","Founder's Journey",1,"A","Fall 2024",[]),
+    T("ECON","100","Principles of Economics",3,"B+","Fall 2024",["D2"]),
+    T("LPAP","180","Walk, Jog, Run",1,"A+","Fall 2024",[]),
+    T("MATH","101","Single Variable Calculus I",3,"A","Fall 2024",["D3"]),
+    T("PSYC","101","Introduction to Psychology",3,"A","Fall 2024",["D2"]),
+    T("UNIV","194","CTIS Workshop",0,"S","Fall 2024",[]),
+    T("UNIV","195","CDOD Workshop",0,"S","Fall 2024",[]),
+    // Spring 2025
+    T("BUSI","220","Intro to Design and Innovation",3,"A","Spring 2025",[]),
+    T("BUSI","305","Financial Accounting",3,"A-","Spring 2025",[]),
+    T("BUSI","361","Entrepreneurial Communication",1,"A+","Spring 2025",[]),
+    T("BUSI","369","New Enterprises",3,"A","Spring 2025",[]),
+    T("BUSI","395","Data Analytics",4,"A","Spring 2025",[]),
+    T("COMM","120","FWIS Writing Studio",1,"S","Spring 2025",[]),
+    T("FWIS","296","Business in Literature & Film",3,"A","Spring 2025",[]),
+    // Fall 2025
+    T("BUSI","223","Modeling for Entrepreneurs",3,"A","Fall 2025",[]),
+    T("BUSI","233","GenAI for Business",3,"A+","Fall 2025",[]),
+    T("BUSI","343","Financial Management",3,"A","Fall 2025",[]),
+    T("BUSI","380","Marketing",3,"A","Fall 2025",[]),
+    T("BUSI","390","Strategic Management",3,"A-","Fall 2025",[]),
+    T("BUSI","461","Financing the Startup Venture",3,"A","Fall 2025",[]),
+    // Spring 2026
+    T("ASIA","205","East Asian Food History",3,"A+","Spring 2026",["D1"]),
+    T("BUSI","420","Leadership and Teams",3,"A","Spring 2026",[]),
+    T("BUSI","448","Investments",3,"P","Spring 2026",[]),
+    T("BUSI","463","Entrepreneurial Strategy",3,"A","Spring 2026",[]),
+    T("BUSI","465","Student Venture Fund",3,"A","Spring 2026",[]),
+    T("RELI","142","The Colors of Life",3,"A","Spring 2026",["D1"]),
+  ];
+
+  // Fall 2026 course catalog (undergraduate BUSI, 100-499). Graduate/PhD (500+) omitted.
+  const P = s => { const [h,m] = s.split(":").map(Number); return h*60+m; };
+  const M = (days,a,b) => ({days:days.split(""), start:P(a), end:P(b)});
+  const catalog = {};
+  const C = (crn,number,section,title,instructor,credits,meetings) => {
+    catalog[crn] = {crn, subject:"BUSI", number, section, title, instructor:instructor||"",
+      credits, partOfTerm:"Full Term", meetings:meetings||[], divisions:[], tags:[]};
+  };
+  C("15079","215","001","LEADING ACROSS SOCIAL DIVIDES","Jun, Sora",3,[M("MW","16:00","17:15")]);
+  C("12696","221","001","NEW ENTERPRISES: DISCOVERY","Panahi, Hesam",3,[M("TR","13:00","14:15")]);
+  C("13201","224","001","BIAS AND MEDICAL DEVICE DESIGN","Abidi, Sabia; Panahi, Hesam",1,[M("M","13:00","13:50")]);
+  C("15298","233","001","GENAI FOR BUSINESS","Perley, Kathleen",3,[M("MW","10:50","12:05")]);
+  C("11130","305","001","FINANCIAL ACCOUNTING","Peyravan, Leila",3,[M("MW","13:00","14:15")]);
+  C("13221","305","002","FINANCIAL ACCOUNTING","Peyravan, Leila",3,[M("TR","09:25","10:40")]);
+  C("12699","305","003","FINANCIAL ACCOUNTING","Peyravan, Leila",3,[M("TR","16:00","17:15")]);
+  C("10519","310","001","LEADING IN ORGANIZATIONS","Banks, Bernie",3,[M("MW","08:00","09:15")]);
+  C("10250","310","002","LEADING IN ORGANIZATIONS","Sciarappa, Shannon",3,[M("MW","14:30","15:45")]);
+  C("13413","310","003","LEADING IN ORGANIZATIONS","Sciarappa, Shannon",3,[M("MW","16:00","17:15")]);
+  C("13966","310","004","LEADING IN ORGANIZATIONS","Banks, Bernie",3,[M("MW","08:00","09:15")]);
+  C("13967","310","005","LEADING IN ORGANIZATIONS","Sciarappa, Shannon",3,[M("MW","14:30","15:45")]);
+  C("13951","310","006","LEADING IN ORGANIZATIONS","Sciarappa, Shannon",3,[M("MW","16:00","17:15")]);
+  C("11131","343","001","FINANCIAL MANAGEMENT","Butler, Alex",3,[M("MW","13:00","14:15")]);
+  C("11132","343","002","FINANCIAL MANAGEMENT","Butler, Alex",3,[M("MW","14:30","15:45")]);
+  C("13254","343","003","FINANCIAL MANAGEMENT","Dittmar, Robert",3,[M("MW","09:25","10:40")]);
+  C("12754","360","001","FOUNDER'S JOURNEY","Judah, Kyle",1.5,[M("M","18:00","19:30")]);
+  C("15935","364","001","INNOVATION FOR SOCIAL IMPACT","Randolph, Sophie",3,[M("MW","16:00","17:15")]);
+  C("13945","374","001","OPERATIONS MANAGEMENT","VanHorn, David",3,[M("MW","14:30","15:45")]);
+  C("13965","374","002","OPERATIONS MANAGEMENT","VanHorn, David",3,[M("MW","14:30","15:45")]);
+  C("12700","380","001","MARKETING","Porter, Constance",3,[M("TR","13:00","14:15")]);
+  C("13934","380","002","MARKETING","Porter, Constance",3,[M("TR","14:30","15:45")]);
+  C("11346","390","001","STRATEGIC MANAGEMENT","Piazza, Alessandro",3,[M("TR","10:50","12:05")]);
+  C("13952","390","002","STRATEGIC MANAGEMENT","Piazza, Alessandro",3,[M("TR","10:50","12:05")]);
+  C("12705","395","001","DATA ANALYTICS","Liu, Yueyang",4,[M("T","09:00","09:50"),M("MW","09:25","10:40")]);
+  C("12704","395","002","DATA ANALYTICS","Liu, Yueyang",4,[M("MW","09:25","10:40"),M("T","10:00","10:50")]);
+  C("13939","395","004","DATA ANALYTICS","Liu, Yueyang",4,[M("MW","11:00","12:15"),M("T","11:00","11:50")]);
+  C("13940","395","005","DATA ANALYTICS","Liu, Yueyang",4,[M("MW","11:00","12:15"),M("T","15:00","15:50")]);
+  C("13953","396","001","BUSINESS COMMUNICATION","Smith, Matt",3,[M("MWF","09:00","09:50")]);
+  C("13954","396","002","BUSINESS COMMUNICATION","Smith, Matt",3,[M("MWF","10:00","10:50")]);
+  C("13956","396","003","BUSINESS COMMUNICATION","Smith, Matt",3,[M("MWF","09:00","09:50")]);
+  C("13957","396","004","BUSINESS COMMUNICATION","Smith, Matt",3,[M("MWF","10:00","10:50")]);
+  C("12702","401","001","FINANCIAL STATEMENT ANALYSIS","",3,[M("TR","08:00","09:15")]);
+  C("13935","401","002","FINANCIAL STATEMENT ANALYSIS","",3,[M("TR","09:25","10:40")]);
+  C("12701","420","001","LEADERSHIP AND TEAMS","Miles, Jonathan",3,[M("TR","14:30","15:45")]);
+  C("13955","420","002","LEADERSHIP AND TEAMS","Miles, Jonathan",3,[M("TR","14:30","15:45")]);
+  C("15077","422","001","NEGOTIATIONS & DECISION MAKING","Wisneski, John",3,[M("MW","16:00","17:15")]);
+  C("15117","423","001","EMOTIONAL INTELLIGENCE","Wisneski, John",3,[M("TR","14:30","15:45")]);
+  C("13123","430","001","MANAGEMENT ACCOUNTING","Lansford, Benjamin",3,[M("MWF","10:00","10:50")]);
+  C("15937","431","001","ADVANCED STRATEGIC MANAGEMENT","Han, Jimin",3,[M("MW","16:00","17:15")]);
+  C("13124","440","001","AUDITING","Drakey, Kelly",3,[M("MWF","11:00","11:50")]);
+  C("15940","447","001","ADVANCED CORPORATE FINANCE","Crane, Alan",3,[M("MW","10:51","12:05")]);
+  C("12407","450","001","DERIVATIVES","Xing, Yuhang",3,[M("TR","10:50","12:05")]);
+  C("13936","450","002","DERIVATIVES","Xing, Yuhang",3,[M("TR","13:00","14:15")]);
+  C("16400","460","001","PRICING STRATEGY","Putnam-Farr, Nell",3,[M("MW","14:00","15:15")]);
+  C("14166","498","001","APPLIED BUSINESS EXPERIENCE","Piqueira, Natalia",1,[]);
+
+  // Merge in the D1 (Humanities) and D3 (Natural Sci/Eng) distribution catalog.
+  EXTRA_CATALOG.forEach(c => {
+    if (catalog[c.crn]) {
+      (c.divisions||[]).forEach(d => { if(!catalog[c.crn].divisions.includes(d)) catalog[c.crn].divisions.push(d); });
+    } else {
+      catalog[c.crn] = Object.assign({tags:[]}, c);
+    }
+  });
+
+  return {
+    student: { name:"Jackson Darr", majors:"Business (Finance) · Minor: Entrepreneurship", classYear:"Junior", creditsNeeded:120 },
+    terms: [
+      {id:uid(), name:"Fall 2026", targetCredits:15, courseCrns:[]},
+      {id:uid(), name:"Spring 2027", targetCredits:15, courseCrns:[]},
+      {id:uid(), name:"Fall 2027", targetCredits:15, courseCrns:[]},
+      {id:uid(), name:"Spring 2028", targetCredits:15, courseCrns:[]},
+    ],
+    catalog,
+    transcript,
+    divisionTargets: { D1:12, D2:12, D3:12 },
+    requirements: [
+      {id:uid(), name:"Total credit hours", kind:"credits", need:120, match:{any:true}},
+    ],
+    ui: { tab:"req", weekTermId:null }
+  };
+}
+
+/* ---------------- State / persistence ---------------- */
+let state;
+let _ctr = 0;
+function uid(){ _ctr += 1; return "id" + Date.now().toString(36) + "-" + _ctr.toString(36); }
+
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) { state = JSON.parse(raw); migrate(); return; }
+  } catch(e){ console.warn("load failed", e); }
+  state = seedState();
+}
+function migrate(){
+  state.student = state.student || { name:"", majors:"", classYear:"Junior", creditsNeeded:120 };
+  if (!state.student.creditsNeeded) state.student.creditsNeeded = 120;
+  state.terms = state.terms || [];
+  state.catalog = state.catalog || {};
+  state.transcript = state.transcript || [];
+  state.divisionTargets = state.divisionTargets || { D1:12, D2:12, D3:12 };
+  state.requirements = state.requirements || [];
+  state.ui = state.ui || { tab:"plan", weekTermId:null };
+}
+function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e){ toast("Could not save locally"); } }
+
+/* ---------------- Helpers ---------------- */
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])); }
+function el(html){ const t=document.createElement("template"); t.innerHTML=html.trim(); return t.content.firstElementChild; }
+function fmtTime(min){
+  if(min==null) return "";
+  let h=Math.floor(min/60), m=min%60, ap=h>=12?"PM":"AM"; let hh=h%12; if(hh===0)hh=12;
+  return hh + ":" + String(m).padStart(2,"0") + ap;
+}
+function courseCode(c){ return c.subject + " " + c.number + (c.section ? " " + c.section : ""); }
+function meetingStr(c){
+  if(!c.meetings || !c.meetings.length) return "TBA / no set time";
+  return c.meetings.map(mt => (mt.days||[]).join("") + " " + fmtTime(mt.start) + "–" + fmtTime(mt.end)).join(", ");
+}
+function num(v, d){ const n=parseFloat(v); return isNaN(n)?(d||0):n; }
+function toast(msg){
+  const r=document.getElementById("toastRoot"); r.innerHTML="";
+  const t=el('<div class="toast">'+esc(msg)+'</div>'); r.appendChild(t);
+  setTimeout(()=>{ if(t.parentNode) t.remove(); }, 2600);
+}
+
+/* transcript passing credits */
+function isPassing(grade){
+  if(!grade) return true;
+  const g=String(grade).trim().toUpperCase();
+  return !["F","W","INC","U","NP","FAIL"].includes(g);
+}
+function earnedCredits(){
+  return state.transcript.reduce((s,t)=> s + (isPassing(t.grade)? num(t.credits):0), 0);
+}
+function plannedCourses(){
+  const list=[];
+  state.terms.forEach(term=>{
+    (term.courseCrns||[]).forEach(crn=>{ const c=state.catalog[crn]; if(c) list.push({term, course:c}); });
+  });
+  return list;
+}
+function plannedCredits(){
+  return plannedCourses().reduce((s,x)=> s + num(x.course.credits), 0);
+}
+function termCredits(term){
+  return (term.courseCrns||[]).reduce((s,crn)=>{ const c=state.catalog[crn]; return s + (c?num(c.credits):0); },0);
+}
+
+/* Has this course (subject+number) already been completed on the transcript? */
+function completedMatch(subject, number){
+  return state.transcript.find(t => (t.subject||"").toUpperCase()===(subject||"").toUpperCase()
+    && String(t.number)===String(number) && isPassing(t.grade));
+}
+
+/* Division credits from transcript + planned */
+function divisionCredits(divId){
+  let total=0;
+  state.transcript.forEach(t=>{ if((t.divisions||[]).includes(divId) && isPassing(t.grade)) total+=num(t.credits); });
+  plannedCourses().forEach(x=>{ if((x.course.divisions||[]).includes(divId)) total+=num(x.course.credits); });
+  return total;
+}
+
+/* Conflict detection within a term: returns Set of crns in conflict */
+function termConflicts(term){
+  const bad=new Set();
+  const crns=(term.courseCrns||[]).filter(crn=>state.catalog[crn]);
+  for(let i=0;i<crns.length;i++){
+    for(let j=i+1;j<crns.length;j++){
+      if(coursesOverlap(state.catalog[crns[i]], state.catalog[crns[j]])){ bad.add(crns[i]); bad.add(crns[j]); }
+    }
+  }
+  return bad;
+}
+function coursesOverlap(a,b){
+  for(const ma of (a.meetings||[])) for(const mb of (b.meetings||[])){
+    if(ma.start==null||mb.start==null) continue;
+    const shared=(ma.days||[]).some(d=>(mb.days||[]).includes(d));
+    if(shared && ma.start < mb.end && mb.start < ma.end) return true;
+  }
+  return false;
+}
+
+/* ---------------- Parser: courses.rice.edu blocks ---------------- */
+function parseDays(str){
+  const out=[]; const s=str.toUpperCase();
+  for(const ch of s){ if(DAY_CODES.includes(ch)) out.push(ch); }
+  return out;
+}
+function parseClock(str){
+  const m=str.trim().match(/(\d{1,2}):(\d{2})\s*([AP])M/i);
+  if(!m) return null;
+  let h=parseInt(m[1],10); const min=parseInt(m[2],10); const ap=m[3].toUpperCase();
+  if(ap==="P" && h!==12) h+=12; if(ap==="A" && h===12) h=0;
+  return h*60+min;
+}
+function parseMeetingLine(val){
+  // e.g. "4:00PM - 5:15PM MW"  or "1:00PM - 1:50PM M"
+  const m=val.match(/(\d{1,2}:\d{2}\s*[AP]M)\s*[-–]\s*(\d{1,2}:\d{2}\s*[AP]M)\s*([MTWRFSU]+)/i);
+  if(!m) return null;
+  return { start:parseClock(m[1]), end:parseClock(m[2]), days:parseDays(m[3]) };
+}
+function parseCourseCode(val){
+  const m=val.trim().match(/^([A-Z]{2,5})\s*(\d{2,3}[A-Z]?)\s*(\d{2,3}[A-Z]?)?/i);
+  if(!m) return {subject:val.trim(), number:"", section:""};
+  return { subject:(m[1]||"").toUpperCase(), number:m[2]||"", section:m[3]||"" };
+}
+function parsePaste(text){
+  const lines=text.split(/\r?\n/);
+  const records=[]; let cur=null; let lastField=null;
+  const push=()=>{ if(cur) records.push(cur); };
+  for(let raw of lines){
+    const line=raw.trim(); if(!line) continue;
+    const cm=line.match(/^(CRN|Course|Part of Term|Title|Instructor\(s\)|Instructors?|Meeting|Credits?)\s*:\s*(.*)$/i);
+    if(cm){
+      const key=cm[1].toLowerCase(); const val=cm[2].trim();
+      if(key==="crn"){ push(); cur={crn:val.replace(/\D/g,"")||val, subject:"",number:"",section:"",title:"",instructor:"",credits:0,partOfTerm:"",meetings:[],divisions:[],tags:[]}; lastField="crn"; continue; }
+      if(!cur){ cur={crn:"", subject:"",number:"",section:"",title:"",instructor:"",credits:0,partOfTerm:"",meetings:[],divisions:[],tags:[]}; }
+      if(key==="course"){ const pc=parseCourseCode(val); cur.subject=pc.subject; cur.number=pc.number; cur.section=pc.section; lastField="course"; }
+      else if(key==="part of term"){ cur.partOfTerm=val; lastField="part"; }
+      else if(key==="title"){ cur.title=val; lastField="title"; }
+      else if(key.startsWith("instructor")){ cur.instructor=val; lastField="instructor"; }
+      else if(key==="meeting"){ const mt=parseMeetingLine(val); if(mt) cur.meetings.push(mt); lastField="meeting"; }
+      else if(key.startsWith("credit")){ cur.credits=num(val); lastField="credits"; }
+      continue;
+    }
+    // continuation line (e.g. second instructor, or CRN heading like "CRN 15079")
+    if(cur){
+      if(lastField==="instructor"){ cur.instructor += (cur.instructor?"; ":"") + line; }
+      else if(lastField==="title"){ cur.title += " " + line; }
+      else if(lastField==="meeting"){ const mt=parseMeetingLine(line); if(mt) cur.meetings.push(mt); }
+    }
+  }
+  push();
+  return records.filter(r=> r.crn || r.subject);
+}
+
+/* transcript paste: tolerant line parser */
+function parseTranscript(text){
+  const out=[];
+  text.split(/\r?\n/).forEach(raw=>{
+    const line=raw.trim(); if(!line) return;
+    const m=line.match(/^([A-Z]{2,5})\s*(\d{2,3}[A-Z]?)\b(.*)$/i);
+    if(!m) return;
+    const rest=(m[3]||"").trim();
+    // find a credits number (integer or .5) and an optional grade token
+    const credM=rest.match(/(\d(?:\.\d)?)\s*(?:cr|credit|hrs?)?\b/i);
+    const gradeM=rest.match(/\b([A-D][+-]?|F|P|S|CR|W|INC|TR)\b\s*$/i);
+    let title=rest;
+    if(credM) title=title.replace(credM[0],"").trim();
+    if(gradeM) title=title.replace(new RegExp(gradeM[0]+"$"),"").trim();
+    title=title.replace(/\s{2,}/g," ").replace(/[|,]+$/,"").trim();
+    out.push({ id:uid(), subject:m[1].toUpperCase(), number:m[2], title:title||"", credits: credM?num(credM[1]):3, grade: gradeM?gradeM[1].toUpperCase():"", divisions:[] });
+  });
+  return out;
+}
+
+/* ---------------- Rendering ---------------- */
+const view=document.getElementById("view");
+function render(){
+  renderSummary();
+  document.querySelectorAll(".tab").forEach(t=> t.classList.toggle("active", t.dataset.tab===state.ui.tab));
+  const title=state.student.name ? (state.student.name.split(/\s+/)[0] + "’s Plan") : "Course Planner";
+  document.getElementById("brandTitle").textContent=title;
+  const map={plan:renderPlan, week:renderWeek, req:renderReq, catalog:renderCatalog, data:renderData};
+  view.innerHTML=""; (map[state.ui.tab]||renderPlan)();
+  save();
+}
+
+function renderSummary(){
+  const earned=earnedCredits(), planned=plannedCredits(), need=num(state.student.creditsNeeded,120);
+  const remaining=Math.max(0, need - earned - planned);
+  // projected graduation = last term that still has planned courses / where cumulative reaches need
+  let gradTerm="—", cum=earned;
+  for(const term of state.terms){ const tc=termCredits(term); if(tc>0){ cum+=tc; gradTerm=term.name; if(cum>=need) { gradTerm=term.name; break; } } }
+  const totalConflicts=state.terms.reduce((s,t)=> s+termConflicts(t).size,0);
+
+  const divMini=DIVISIONS.map(d=>{
+    const have=divisionCredits(d.id), tgt=num(state.divisionTargets[d.id],0);
+    const ok=tgt>0 && have>=tgt;
+    return '<span class="chip tag-'+d.cls+'" title="'+esc(d.name)+'">'+d.id+' '+have+'/'+tgt+(ok?' ✓':'')+'</span>';
+  }).join("");
+
+  document.getElementById("summary").innerHTML = `
+    <div class="stat"><div class="label">Credits earned</div>
+      <div class="value mono">${earned}<small> / ${need}</small></div>
+      <div class="sub">from transcript</div></div>
+    <div class="stat"><div class="label">Planned ahead</div>
+      <div class="value mono">${planned}</div>
+      <div class="sub">${plannedCourses().length} courses across ${state.terms.filter(t=>termCredits(t)>0).length} terms</div></div>
+    <div class="stat"><div class="label">Still needed</div>
+      <div class="value mono">${remaining}</div>
+      <div class="sub">${remaining===0?'requirement met ✓':'after current plan'}</div></div>
+    <div class="stat"><div class="label">On track to finish</div>
+      <div class="value" style="font-size:19px">${esc(gradTerm)}</div>
+      <div class="sub">${totalConflicts>0?'<span style="color:var(--bad)">'+totalConflicts+' time conflict(s)</span>':'no time conflicts'}</div></div>
+    <div class="stat"><div class="label">Division progress</div>
+      <div class="div-mini">${divMini}</div>
+      <div class="sub">D1 / D2 / D3 credits</div></div>`;
+}
+
+/* ---- Plan ---- */
+function renderPlan(){
+  const wrap=el('<div></div>');
+  wrap.appendChild(el(`<div class="section-title"><h2>Semester plan</h2>
+    <span class="hint">Drag-free planning — add courses to any term. Conflicts and over/underloads flag automatically.</span></div>`));
+  const bar=el('<div class="row" style="margin-bottom:14px"></div>');
+  bar.appendChild(mkBtn("+ Add term", "ghost", ()=>{ addTerm(); }));
+  bar.appendChild(el('<span class="hint">Tip: a typical full load is 15–18 credits; below 12 is usually part-time.</span>'));
+  wrap.appendChild(bar);
+
+  const scroll=el('<div class="plan-scroll"></div>');
+  const terms=el('<div class="terms"></div>');
+  if(!state.terms.length) terms.appendChild(el('<div class="empty"><h3>No terms yet</h3><div>Add a term to start planning.</div></div>'));
+
+  state.terms.forEach(term=>{
+    const conflicts=termConflicts(term);
+    const tc=termCredits(term); const tgt=num(term.targetCredits,0);
+    const card=el('<div class="term card"></div>');
+    const head=el('<div class="term-head"></div>');
+    head.appendChild(el('<div class="row spread"><span class="tname" contenteditable="true" spellcheck="false" data-term="'+term.id+'">'+esc(term.name)+'</span><button class="x btn danger sm" title="Remove term">Remove</button></div>'));
+    head.querySelector('.tname').addEventListener('blur', e=>{ term.name=e.target.textContent.trim()||term.name; save(); renderSummary(); });
+    head.querySelector('.btn.danger').addEventListener('click', ()=>{ if(confirm("Remove "+term.name+"? Courses return to the catalog.")){ state.terms=state.terms.filter(t=>t.id!==term.id); render(); }});
+    card.appendChild(head);
+
+    const body=el('<div class="term-body"></div>');
+    if(!(term.courseCrns||[]).length){ body.appendChild(el('<div class="hint" style="text-align:center;padding:8px">No courses yet</div>')); }
+    (term.courseCrns||[]).forEach(crn=>{
+      const c=state.catalog[crn]; if(!c){ return; }
+      const conf=conflicts.has(crn);
+      const cc=el('<div class="ccard'+(conf?' conflict':'')+'"></div>');
+      cc.innerHTML=`<button class="x" title="Remove">×</button>
+        <div class="code">${esc(courseCode(c))}</div>
+        <div class="ct">${esc(c.title)}</div>
+        <div class="meta">
+          <span class="pill mono">${num(c.credits)} cr</span>
+          <span class="pill mono">${esc(meetingStr(c))}</span>
+          ${(c.divisions||[]).map(d=>'<span class="pill tag-'+d.toLowerCase()+'">'+d+'</span>').join("")}
+          ${conf?'<span class="pill bad">conflict</span>':''}
+        </div>`;
+      cc.querySelector('.x').addEventListener('click', ()=>{ term.courseCrns=term.courseCrns.filter(x=>x!==crn); render(); });
+      body.appendChild(cc);
+    });
+    card.appendChild(body);
+
+    const foot=el('<div class="term-foot"></div>');
+    const loadPill = tc===0 ? '' : (tc<12?'<span class="pill warn">light</span>': tc>18?'<span class="pill warn">heavy</span>':'<span class="pill good">full</span>');
+    foot.innerHTML=`<span class="credit-tot"><b>${tc}</b> <span class="hint">/ ${tgt} cr</span> ${loadPill}</span>`;
+    const addBtn=mkBtn("+ Course","ghost",()=>openAddCourseModal(term)); addBtn.classList.add("sm");
+    foot.appendChild(addBtn);
+    card.appendChild(foot);
+
+    if(conflicts.size){ card.appendChild(el('<div class="term-warn" style="color:var(--bad)">⚠ '+(conflicts.size)+' course(s) overlap in time</div>')); }
+    terms.appendChild(card);
+  });
+  scroll.appendChild(terms); wrap.appendChild(scroll);
+  view.appendChild(wrap);
+}
+
+/* ---- Week ---- */
+function renderWeek(){
+  if(!state.ui.weekTermId || !state.terms.find(t=>t.id===state.ui.weekTermId)){
+    state.ui.weekTermId = (state.terms[0]||{}).id || null;
+  }
+  const wrap=el('<div></div>');
+  const ctrl=el('<div class="section-title"><h2>Weekly schedule</h2></div>');
+  wrap.appendChild(ctrl);
+  if(!state.terms.length){ wrap.appendChild(el('<div class="empty"><h3>No terms</h3><div>Add a term in the Plan tab first.</div></div>')); view.appendChild(wrap); return; }
+
+  const sel=el('<div class="row" style="margin-bottom:12px"></div>');
+  const dd=el('<select></select>');
+  state.terms.forEach(t=>{ const o=el('<option value="'+t.id+'">'+esc(t.name)+' · '+termCredits(t)+' cr</option>'); if(t.id===state.ui.weekTermId)o.selected=true; dd.appendChild(o); });
+  dd.addEventListener('change', e=>{ state.ui.weekTermId=e.target.value; render(); });
+  sel.appendChild(el('<span class="hint">Showing</span>')); sel.appendChild(dd);
+  wrap.appendChild(sel);
+
+  const term=state.terms.find(t=>t.id===state.ui.weekTermId);
+  const conflicts=termConflicts(term);
+  // Determine days shown (Mon-Fri, plus Sat/Sun if used)
+  const used=new Set(["M","T","W","R","F"]);
+  (term.courseCrns||[]).forEach(crn=>{ const c=state.catalog[crn]; if(c)(c.meetings||[]).forEach(m=>(m.days||[]).forEach(d=>used.add(d))); });
+  const days=DAY_CODES.filter(d=>used.has(d));
+
+  const grid=el('<div class="card weekwrap" style="padding:10px"></div>');
+  const g=el('<div class="grid" style="--ndays:'+days.length+'"></div>');
+  g.appendChild(el('<div class="corner"></div>'));
+  days.forEach(d=> g.appendChild(el('<div class="dayhead">'+DAY_NAMES[d]+'</div>')));
+
+  const gb=el('<div class="gridbody" style="grid-column:1 / -1; position:relative"></div>');
+  const hours=(GRID_END-GRID_START)/60;
+  for(let h=0;h<hours;h++){
+    const row=el('<div class="hourrow" style="--ndays:'+days.length+'"></div>');
+    row.appendChild(el('<div class="hourlabel">'+fmtTime(GRID_START+h*60)+'</div>'));
+    days.forEach(()=> row.appendChild(el('<div class="cell"></div>')));
+    gb.appendChild(row);
+  }
+  // events overlay
+  const ev=el('<div class="events" style="--ndays:'+days.length+'"></div>');
+  const cols={}; days.forEach(d=>{ const c=el('<div class="daycol"></div>'); cols[d]=c; ev.appendChild(c); });
+  (term.courseCrns||[]).forEach(crn=>{
+    const c=state.catalog[crn]; if(!c) return; const conf=conflicts.has(crn);
+    (c.meetings||[]).forEach(m=>{
+      if(m.start==null) return;
+      (m.days||[]).forEach(d=>{
+        if(!cols[d]) return;
+        const top=(m.start-GRID_START)*PX_PER_MIN;
+        const height=Math.max(20,(m.end-m.start)*PX_PER_MIN);
+        const b=el('<div class="ev'+(conf?' conflict':'')+'"></div>');
+        b.style.top=top+"px"; b.style.height=height+"px";
+        b.innerHTML='<div class="evc">'+esc(courseCode(c))+'</div><div class="evt">'+esc(c.title)+'</div><div class="evm">'+fmtTime(m.start)+'–'+fmtTime(m.end)+'</div>';
+        b.title=courseCode(c)+" — "+c.title;
+        cols[d].appendChild(b);
+      });
+    });
+  });
+  gb.appendChild(ev);
+  g.appendChild(gb);
+  grid.appendChild(g);
+  wrap.appendChild(grid);
+
+  // Free-day summary (for working)
+  const busyDays=new Set();
+  (term.courseCrns||[]).forEach(crn=>{ const c=state.catalog[crn]; if(c)(c.meetings||[]).forEach(m=>(m.days||[]).forEach(d=>busyDays.add(d))); });
+  const weekdays=["M","T","W","R","F"];
+  const freeRow=el('<div></div>');
+  freeRow.appendChild(el('<div class="section-title" style="margin-top:18px"><h2 style="font-size:15px">Days free for work</h2><span class="hint">Weekdays with no class — useful for planning office time</span></div>'));
+  const fr=el('<div class="freeday-row"></div>');
+  weekdays.forEach(d=>{
+    const free=!busyDays.has(d);
+    fr.appendChild(el('<div class="freeday '+(free?'free':'busy')+'">'+DAY_NAMES[d]+' · '+(free?'Free':'In class')+'</div>'));
+  });
+  freeRow.appendChild(fr);
+  wrap.appendChild(freeRow);
+  view.appendChild(wrap);
+}
+
+/* ---- Requirements ---- */
+function renderReq(){
+  const wrap=el('<div></div>');
+  wrap.appendChild(el(`<div class="section-title"><h2>Degree requirements</h2>
+    <span class="divlegend">
+      <span><span class="swatch" style="background:var(--d1)"></span>D1 Humanities</span>
+      <span><span class="swatch" style="background:var(--d2)"></span>D2 Social Sciences</span>
+      <span><span class="swatch" style="background:var(--d3)"></span>D3 Natural Sci &amp; Eng</span>
+    </span></div>`));
+  wrap.appendChild(el('<p class="lead" style="margin:-4px 0 14px">Progress counts your transcript plus everything currently in your plan. Division tags come from the Catalog tab; targets below are editable to match your college’s exact rule.</p>'));
+
+  // Division cards
+  const dg=el('<div class="reqgrid" style="margin-bottom:16px"></div>');
+  DIVISIONS.forEach(d=>{
+    const have=divisionCredits(d.id), tgt=num(state.divisionTargets[d.id],0);
+    const pct=tgt>0?Math.min(100,Math.round(have/tgt*100)):0; const done=tgt>0&&have>=tgt;
+    const card=el('<div class="reqcard card"></div>');
+    card.innerHTML=`<div class="rtop"><h3><span class="pill tag-${d.cls}">${d.id}</span> ${esc(d.name)}</h3>
+      ${done?'<span class="pill good">met ✓</span>':'<span class="pill">'+have+'/'+tgt+'</span>'}</div>
+      <div class="bar ${d.cls} ${done?'done':''}"><i style="width:${pct}%"></i></div>
+      <div class="reqmeta"><span>${have} credits</span><span>target <input type="number" min="0" style="width:56px;padding:2px 5px" value="${tgt}" data-divtgt="${d.id}"></span></div>`;
+    card.querySelector('[data-divtgt]').addEventListener('change', e=>{ state.divisionTargets[d.id]=num(e.target.value); render(); });
+    dg.appendChild(card);
+  });
+  wrap.appendChild(dg);
+
+  // Custom requirement groups
+  const head=el('<div class="row spread" style="margin:6px 0 10px"></div>');
+  head.appendChild(el('<h2 style="font-size:16px;color:var(--ink)">Requirement groups</h2>'));
+  head.appendChild(mkBtn("+ Add requirement","ghost",openReqModal));
+  wrap.appendChild(head);
+
+  const rg=el('<div class="reqgrid"></div>');
+  if(!state.requirements.length) rg.appendChild(el('<div class="empty"><h3>No custom requirements yet</h3><div>Add groups like “Major core — 30 credits” or “2 courses in STAT”.</div></div>'));
+  state.requirements.forEach(r=>{
+    const res=evalRequirement(r);
+    const pct=res.need>0?Math.min(100,Math.round(res.have/res.need*100)):100; const done=res.have>=res.need;
+    const card=el('<div class="reqcard card"></div>');
+    card.innerHTML=`<div class="rtop"><h3>${esc(r.name)}</h3>${done?'<span class="pill good">met ✓</span>':'<span class="pill">'+res.have+'/'+res.need+'</span>'}</div>
+      <div class="bar ${done?'done':''}"><i style="width:${pct}%"></i></div>
+      <div class="reqmeta"><span>${res.have} / ${res.need} ${r.kind==='courses'?'courses':'credits'}</span><span>${esc(describeMatch(r.match))}</span></div>
+      <div class="matched-list">${res.items.slice(0,8).map(x=>'<span class="pill mono">'+esc(x)+'</span>').join("")}${res.items.length>8?'<span class="pill">+'+(res.items.length-8)+'</span>':''}</div>`;
+    const rm=el('<div class="row" style="margin-top:10px"></div>');
+    rm.appendChild(mkBtn("Edit","ghost sm",()=>openReqModal(r)));
+    rm.appendChild(mkBtn("Delete","danger sm",()=>{ state.requirements=state.requirements.filter(x=>x.id!==r.id); render(); }));
+    card.appendChild(rm);
+    rg.appendChild(card);
+  });
+  wrap.appendChild(rg);
+  view.appendChild(wrap);
+}
+function describeMatch(m){
+  if(!m) return "all courses"; if(m.any) return "any course";
+  const parts=[];
+  if(m.subjects&&m.subjects.length) parts.push(m.subjects.join("/"));
+  if(m.divisions&&m.divisions.length) parts.push(m.divisions.join("/"));
+  if(m.courses&&m.courses.length) parts.push(m.courses.length+" specific");
+  return parts.join(" · ")||"all courses";
+}
+function evalRequirement(r){
+  const m=r.match||{}; const items=[]; let credits=0, count=0;
+  const consider=(subject,number,cr,divisions,labelSuffix)=>{
+    const code=subject+" "+number;
+    let ok=false;
+    if(m.any) ok=true;
+    if(!ok && m.subjects && m.subjects.map(s=>s.toUpperCase()).includes((subject||"").toUpperCase())) ok=true;
+    if(!ok && m.courses && m.courses.map(c=>c.replace(/\s+/g,"").toUpperCase()).includes((subject+number).replace(/\s+/g,"").toUpperCase())) ok=true;
+    if(!ok && m.divisions && m.divisions.some(d=>(divisions||[]).includes(d))) ok=true;
+    if(ok){ items.push(code+(labelSuffix||"")); credits+=num(cr); count+=1; }
+  };
+  state.transcript.forEach(t=>{ if(isPassing(t.grade)) consider(t.subject,t.number,t.credits,t.divisions," ✓"); });
+  plannedCourses().forEach(x=>{ const c=x.course; consider(c.subject,c.number,c.credits,c.divisions,""); });
+  return { have: r.kind==='courses'?count:credits, need:num(r.need), items };
+}
+
+/* ---- Catalog ---- */
+function renderCatalog(){
+  const wrap=el('<div></div>');
+  wrap.appendChild(el('<div class="section-title"><h2>Course catalog</h2><span class="hint">Paste blocks copied from courses.rice.edu — CRN, times, days and credits are read automatically.</span></div>'));
+
+  const paster=el('<div class="card" style="padding:14px;margin-bottom:16px"></div>');
+  paster.innerHTML=`<label class="field"><span>Paste course listings</span>
+    <textarea id="pasteBox" rows="6" placeholder="CRN: 15079&#10;Course: BUSI 215 001&#10;Title: LEADING ACROSS SOCIAL DIVIDES&#10;Instructor(s): Jun, Sora&#10;Meeting: 4:00PM - 5:15PM MW&#10;Credits: 3"></textarea></label>`;
+  const pb=el('<div class="row" style="margin-top:10px"></div>');
+  pb.appendChild(mkBtn("Import courses","btn",()=>{
+    const txt=document.getElementById("pasteBox").value;
+    const recs=parsePaste(txt);
+    if(!recs.length){ toast("No courses found — check the format"); return; }
+    let added=0;
+    recs.forEach(r=>{ const key=r.crn || (r.subject+r.number+r.section);
+      // preserve existing divisions/tags if re-importing
+      const prev=state.catalog[key];
+      if(prev){ r.divisions=prev.divisions; r.tags=prev.tags; }
+      state.catalog[key]=r; added++; });
+    document.getElementById("pasteBox").value="";
+    toast(added+" course(s) imported"); render();
+  }));
+  pb.appendChild(el('<span class="hint">You can paste many at once. Re-importing updates a course and keeps its division tags.</span>'));
+  paster.appendChild(pb);
+  wrap.appendChild(paster);
+
+  // search + filters + list
+  const cat=Object.values(state.catalog).sort((a,b)=> courseCode(a).localeCompare(courseCode(b)));
+  const bar=el('<div class="row spread" style="margin-bottom:8px"></div>');
+  bar.appendChild(el('<input id="catSearch" placeholder="Search code, title, instructor…" style="flex:1;min-width:200px">'));
+  const countEl=el('<span class="hint">'+cat.length+' course(s)</span>');
+  bar.appendChild(countEl);
+  wrap.appendChild(bar);
+
+  let fdiv="all", fhide=false;
+  const filt=el('<div class="row" style="margin-bottom:10px"></div>');
+  const mkFilter=(id,label)=>{ const b=el('<button class="divtoggle'+(fdiv===id?' on'+(id==='all'?'':id.slice(1)):'')+'">'+label+'</button>');
+    if(fdiv===id) b.style.fontWeight="700";
+    b.addEventListener('click',()=>{ fdiv=id; drawFilters(); renderList(); }); return b; };
+  const drawFilters=()=>{ filt.innerHTML="";
+    filt.appendChild(el('<span class="hint">Show</span>'));
+    [["all","All"],["D1","D1 Humanities"],["D2","D2 Social Sci"],["D3","D3 Nat Sci/Eng"],["none","No division"]].forEach(([id,l])=>filt.appendChild(mkFilter(id,l)));
+    const hb=el('<button class="divtoggle'+(fhide?' on1':'')+'" style="margin-left:6px">'+(fhide?'☑':'☐')+' Hide completed</button>');
+    hb.addEventListener('click',()=>{ fhide=!fhide; drawFilters(); renderList(); }); filt.appendChild(hb);
+  };
+  drawFilters(); wrap.appendChild(filt);
+
+  const list=el('<div class="card"></div>');
+  if(!cat.length) list.appendChild(el('<div class="empty"><h3>Catalog is empty</h3><div>Paste some course listings above to get started.</div></div>'));
+  const matchesDiv=c=> fdiv==="all" || (fdiv==="none" ? !(c.divisions||[]).length : (c.divisions||[]).includes(fdiv));
+  const renderList=()=>{
+    list.querySelectorAll('.catrow, .empty').forEach(n=>{ if(!n.closest('.card')||n.closest('.card')===list) n.remove(); });
+    const ql=(document.getElementById("catSearch")||{}).value ? document.getElementById("catSearch").value.toLowerCase() : "";
+    let shown=cat.filter(c=> matchesDiv(c) && (!ql || (courseCode(c)+" "+c.title+" "+c.instructor).toLowerCase().includes(ql)));
+    if(fhide) shown=shown.filter(c=> !completedMatch(c.subject,c.number));
+    countEl.textContent=shown.length+" of "+cat.length+" course(s)";
+    shown.forEach(c=>{
+      const done=completedMatch(c.subject,c.number);
+      const row=el('<div class="catrow"></div>');
+      const left=el('<div></div>');
+      left.innerHTML=`<div class="code">${esc(courseCode(c))} <span class="hint">CRN ${esc(c.crn||"—")}</span> ${done?'<span class="pill good">✓ completed</span>':''}</div>
+        <div class="title">${esc(c.title)}</div>
+        <div class="subm">${num(c.credits)} cr · ${esc(meetingStr(c))}${c.instructor?' · '+esc(c.instructor):''}</div>`;
+      const dt=el('<div class="row" style="margin-top:6px"></div>');
+      DIVISIONS.forEach(d=>{
+        const on=(c.divisions||[]).includes(d.id);
+        const b=el('<button class="divtoggle'+(on?' on'+d.id.slice(1):'')+'">'+d.id+'</button>');
+        b.title="Tag as "+d.name;
+        b.addEventListener('click',()=>{ c.divisions=c.divisions||[]; if(on)c.divisions=c.divisions.filter(x=>x!==d.id); else c.divisions.push(d.id); render(); });
+        dt.appendChild(b);
+      });
+      left.appendChild(dt);
+      const right=el('<div class="row" style="align-items:flex-start"></div>');
+      right.appendChild(mkBtn("Add to term…","ghost sm",()=>openAddToTermModal(c)));
+      right.appendChild(mkBtn("Mark taken","ghost sm",()=>{ markTaken(c); }));
+      const del=mkBtn("×","danger sm",()=>{ if(confirm("Delete "+courseCode(c)+" from catalog?")){ delete state.catalog[c.crn]; state.terms.forEach(t=>t.courseCrns=(t.courseCrns||[]).filter(x=>x!==c.crn)); render(); }});
+      right.appendChild(del);
+      row.appendChild(left); row.appendChild(right);
+      list.appendChild(row);
+    });
+    if(!shown.length && cat.length) list.appendChild(el('<div class="empty">No matches</div>'));
+  };
+  wrap.appendChild(list);
+  view.appendChild(wrap);
+  const si=document.getElementById("catSearch");
+  if(si){ si.addEventListener('input', ()=>renderList()); }
+  renderList();
+}
+function markTaken(c){
+  state.transcript.push({ id:uid(), subject:c.subject, number:c.number, title:c.title, credits:num(c.credits), grade:"", divisions:(c.divisions||[]).slice() });
+  toast(courseCode(c)+" added to transcript"); render();
+}
+
+/* ---- Data ---- */
+function renderData(){
+  const wrap=el('<div></div>');
+  wrap.appendChild(el('<div class="section-title"><h2>Your data</h2></div>'));
+
+  // student
+  const s=state.student;
+  const prof=el('<div class="card" style="padding:14px;margin-bottom:16px"></div>');
+  prof.innerHTML='<h3 style="margin-bottom:10px">Profile</h3>';
+  const grid=el('<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px"></div>');
+  grid.appendChild(fieldInput("Name", s.name, v=>{ s.name=v; }));
+  grid.appendChild(fieldInput("Major(s)", s.majors, v=>{ s.majors=v; }));
+  const yr=el('<label class="field"><span>Class standing</span></label>');
+  const ysel=el('<select></select>'); ["Freshman","Sophomore","Junior","Senior"].forEach(o=>{ const op=el('<option>'+o+'</option>'); if(o===s.classYear)op.selected=true; ysel.appendChild(op); });
+  ysel.addEventListener('change',e=>{ s.classYear=e.target.value; save(); });
+  yr.appendChild(ysel); grid.appendChild(yr);
+  grid.appendChild(fieldInput("Credits needed to graduate", s.creditsNeeded, v=>{ s.creditsNeeded=num(v,120); render(); }, "number"));
+  prof.appendChild(grid);
+  wrap.appendChild(prof);
+
+  // transcript
+  const tr=el('<div class="card" style="padding:14px;margin-bottom:16px"></div>');
+  tr.innerHTML='<div class="row spread"><h3>Transcript — courses already taken</h3><span class="hint">'+state.transcript.length+' course(s) · '+earnedCredits()+' credits</span></div>';
+  tr.appendChild(el('<label class="field" style="margin-top:10px"><span>Paste transcript rows (one course per line: CODE  TITLE  CREDITS  GRADE)</span><textarea id="trBox" rows="4" placeholder="BUSI 210  ACCOUNTING  3  A&#10;ECON 100  PRINCIPLES OF ECONOMICS  4  B+"></textarea></label>'));
+  const trb=el('<div class="row" style="margin:10px 0"></div>');
+  trb.appendChild(mkBtn("Import transcript rows","btn",()=>{
+    const recs=parseTranscript(document.getElementById("trBox").value);
+    if(!recs.length){ toast("Couldn’t parse any rows"); return; }
+    state.transcript.push(...recs); document.getElementById("trBox").value=""; toast(recs.length+" course(s) added"); render();
+  }));
+  tr.appendChild(trb);
+
+  if(state.transcript.length){
+    const tl=el('<div style="display:flex;flex-direction:column;gap:6px"></div>');
+    state.transcript.forEach(t=>{
+      const r=el('<div class="pickitem"></div>');
+      r.innerHTML=`<div><span class="code mono" style="font-weight:600">${esc(t.subject+" "+t.number)}</span> <span class="hint">${esc(t.title)}</span></div>`;
+      const rr=el('<div class="row"></div>');
+      rr.appendChild(el('<span class="pill mono">'+num(t.credits)+' cr</span>'));
+      const gi=el('<input value="'+esc(t.grade||"")+'" placeholder="grade" style="width:64px;padding:3px 6px">');
+      gi.addEventListener('change',e=>{ t.grade=e.target.value.trim().toUpperCase(); render(); });
+      rr.appendChild(gi);
+      DIVISIONS.forEach(d=>{ const on=(t.divisions||[]).includes(d.id);
+        const b=el('<button class="divtoggle'+(on?' on'+d.id.slice(1):'')+'">'+d.id+'</button>');
+        b.addEventListener('click',()=>{ t.divisions=t.divisions||[]; if(on)t.divisions=t.divisions.filter(x=>x!==d.id); else t.divisions.push(d.id); render(); });
+        rr.appendChild(b); });
+      rr.appendChild(mkBtn("×","danger sm",()=>{ state.transcript=state.transcript.filter(x=>x.id!==t.id); render(); }));
+      r.appendChild(rr); tl.appendChild(r);
+    });
+    tr.appendChild(tl);
+  }
+  wrap.appendChild(tr);
+
+  // import/export
+  const io=el('<div class="card" style="padding:14px;margin-bottom:16px"></div>');
+  io.innerHTML='<h3 style="margin-bottom:6px">Backup &amp; restore</h3><p class="hint" style="margin:0 0 10px">Your plan lives in this browser. Export a file to back it up or move it to another device.</p>';
+  const iob=el('<div class="row"></div>');
+  iob.appendChild(mkBtn("Export JSON","ghost",exportJSON));
+  const imp=el('<label class="btn ghost sm" style="cursor:pointer">Import JSON<input type="file" accept="application/json" style="display:none"></label>');
+  imp.querySelector('input').addEventListener('change',importJSON);
+  iob.appendChild(imp);
+  iob.appendChild(mkBtn("Reset everything","danger",()=>{ if(confirm("Erase all data and start fresh?")){ state=seedState(); render(); }}));
+  io.appendChild(iob);
+  wrap.appendChild(io);
+
+  // help
+  wrap.appendChild(el(`<details class="help"><summary>How to use this planner</summary>
+    <ul>
+      <li><b>Catalog tab</b> — paste course listings copied from courses.rice.edu. Tag each with D1/D2/D3 so division progress is tracked.</li>
+      <li><b>Plan tab</b> — add courses into each term. Watch credit loads and red conflict flags.</li>
+      <li><b>Week tab</b> — see any term as a weekly grid, and check which weekdays are class-free for work/internship time.</li>
+      <li><b>Requirements tab</b> — track the 120-credit total, division targets, and any custom requirement groups (e.g. “Major core — 30 credits”).</li>
+      <li><b>Data tab</b> — add your transcript so completed courses count toward requirements and division credits.</li>
+    </ul></details>`));
+  view.appendChild(wrap);
+}
+
+/* ---------------- Modals ---------------- */
+function closeModal(){ document.getElementById("modalRoot").innerHTML=""; }
+function openModal(title, bodyEl){
+  const root=document.getElementById("modalRoot");
+  const ov=el('<div class="overlay"></div>');
+  const m=el('<div class="modal"></div>');
+  const h=el('<div class="modal-head"><h3>'+esc(title)+'</h3></div>');
+  h.appendChild(mkBtn("Close","ghost sm",closeModal));
+  const b=el('<div class="modal-body"></div>'); b.appendChild(bodyEl);
+  m.appendChild(h); m.appendChild(b); ov.appendChild(m); root.appendChild(ov);
+  ov.addEventListener('click',e=>{ if(e.target===ov) closeModal(); });
+}
+function openAddCourseModal(term){
+  const body=el('<div></div>');
+  body.appendChild(el('<p class="hint" style="margin:0">Add a catalog course to <b>'+esc(term.name)+'</b>. Import more in the Catalog tab.</p>'));
+  const search=el('<input placeholder="Search…">'); body.appendChild(search);
+  const listWrap=el('<div class="picklist"></div>'); body.appendChild(listWrap);
+  const cat=Object.values(state.catalog).sort((a,b)=>courseCode(a).localeCompare(courseCode(b)));
+  const draw=(q)=>{
+    listWrap.innerHTML="";
+    const ql=(q||"").toLowerCase();
+    const inTerm=new Set(term.courseCrns||[]);
+    const shown=cat.filter(c=> !ql || (courseCode(c)+" "+c.title).toLowerCase().includes(ql));
+    if(!shown.length){ listWrap.appendChild(el('<div class="hint" style="padding:8px">No courses. Import some in the Catalog tab.</div>')); return; }
+    shown.forEach(c=>{
+      const it=el('<div class="pickitem"></div>');
+      it.innerHTML=`<div><span class="code mono" style="font-weight:600;color:var(--ink)">${esc(courseCode(c))}</span> <span class="hint">${esc(c.title)}</span><br><span class="subm hint mono">${num(c.credits)} cr · ${esc(meetingStr(c))}</span></div>`;
+      if(completedMatch(c.subject,c.number)) it.appendChild(el('<span class="pill good">✓ taken</span>'));
+      if(inTerm.has(c.crn)) it.appendChild(el('<span class="pill good">added</span>'));
+      else it.appendChild(mkBtn("Add","btn sm",()=>{
+        if(completedMatch(c.subject,c.number) && !confirm(courseCode(c)+" is already on your transcript. Add it anyway?")) return;
+        term.courseCrns=term.courseCrns||[]; term.courseCrns.push(c.crn); toast(courseCode(c)+" added to "+term.name); render(); draw(search.value); }));
+      listWrap.appendChild(it);
+    });
+  };
+  search.addEventListener('input',e=>draw(e.target.value)); draw("");
+  openModal("Add course to "+term.name, body);
+}
+function openAddToTermModal(course){
+  const body=el('<div></div>');
+  body.appendChild(el('<p class="hint" style="margin:0">Add <b>'+esc(courseCode(course))+'</b> to which term?</p>'));
+  const listWrap=el('<div class="picklist"></div>');
+  if(!state.terms.length) listWrap.appendChild(el('<div class="hint">No terms yet — add one in the Plan tab.</div>'));
+  state.terms.forEach(t=>{
+    const it=el('<div class="pickitem"></div>');
+    const has=(t.courseCrns||[]).includes(course.crn);
+    it.innerHTML='<div><b>'+esc(t.name)+'</b> <span class="hint">'+termCredits(t)+' cr</span></div>';
+    if(has) it.appendChild(el('<span class="pill good">already in</span>'));
+    else it.appendChild(mkBtn("Add here","btn sm",()=>{
+      if(completedMatch(course.subject,course.number) && !confirm(courseCode(course)+" is already on your transcript. Add it anyway?")) return;
+      t.courseCrns=t.courseCrns||[]; t.courseCrns.push(course.crn); toast("Added to "+t.name); closeModal(); render(); }));
+    listWrap.appendChild(it);
+  });
+  body.appendChild(listWrap);
+  openModal("Add to term", body);
+}
+function openReqModal(existing){
+  const r = existing || { id:uid(), name:"", kind:"credits", need:12, match:{subjects:[],divisions:[],courses:[]} };
+  const isNew=!existing;
+  const body=el('<div></div>');
+  const nameI=fieldInput("Requirement name", r.name, v=>{}); body.appendChild(nameI);
+  const kindWrap=el('<label class="field"><span>Measured in</span></label>');
+  const kindSel=el('<select><option value="credits">Credit hours</option><option value="courses">Number of courses</option></select>');
+  kindSel.value=r.kind; kindWrap.appendChild(kindSel); body.appendChild(kindWrap);
+  const needI=fieldInput("How many needed", r.need, v=>{}, "number"); body.appendChild(needI);
+  const subjI=fieldInput("Match subjects (comma-separated, e.g. BUSI, ECON)", (r.match.subjects||[]).join(", "), v=>{}); body.appendChild(subjI);
+  const courseI=fieldInput("Or specific courses (e.g. BUSI 305, STAT 310)", (r.match.courses||[]).join(", "), v=>{}); body.appendChild(courseI);
+  const divWrap=el('<div class="field"><span class="hint">Or match a division</span><div class="row" id="reqDivs"></div></div>');
+  const chosen=new Set(r.match.divisions||[]);
+  DIVISIONS.forEach(d=>{ const on=chosen.has(d.id); const b=el('<button class="divtoggle'+(on?' on'+d.id.slice(1):'')+'">'+d.id+'</button>');
+    b.addEventListener('click',()=>{ if(chosen.has(d.id)){chosen.delete(d.id); b.className="divtoggle";} else {chosen.add(d.id); b.className="divtoggle on"+d.id.slice(1);} });
+    divWrap.querySelector('#reqDivs').appendChild(b); });
+  body.appendChild(divWrap);
+  body.appendChild(el('<p class="hint" style="margin:0">Leave everything blank to match <b>all</b> courses (useful for a total-credits rule).</p>'));
+  const save1=mkBtn(isNew?"Add requirement":"Save changes","btn",()=>{
+    r.name=nameI.querySelector('input').value.trim()||"Requirement";
+    r.kind=kindSel.value; r.need=num(needI.querySelector('input').value,0);
+    const subs=subjI.querySelector('input').value.split(",").map(x=>x.trim().toUpperCase()).filter(Boolean);
+    const crs=courseI.querySelector('input').value.split(",").map(x=>x.trim().toUpperCase()).filter(Boolean);
+    r.match={ subjects:subs, courses:crs, divisions:[...chosen] };
+    if(!subs.length && !crs.length && !chosen.size) r.match.any=true;
+    if(isNew) state.requirements.push(r);
+    closeModal(); render();
+  });
+  body.appendChild(save1);
+  openModal(isNew?"New requirement":"Edit requirement", body);
+}
+
+/* ---------------- small factories ---------------- */
+function mkBtn(label, cls, fn){ const b=el('<button class="btn '+(cls||"")+'">'+label+'</button>'); b.addEventListener('click',fn); return b; }
+function fieldInput(label, val, onChange, type){
+  const l=el('<label class="field"><span>'+esc(label)+'</span></label>');
+  const i=el('<input '+(type==="number"?'type="number"':'')+' value="'+esc(val==null?"":val)+'">');
+  i.addEventListener('change',e=>{ onChange(e.target.value); if(!document.getElementById("modalRoot").contains(i)) save(); });
+  l.appendChild(i); return l;
+}
+function addTerm(){
+  const last=state.terms[state.terms.length-1];
+  let name="New Term";
+  if(last){ const m=last.name.match(/(Fall|Spring|Summer)\s+(\d{4})/i);
+    if(m){ const yr=parseInt(m[2],10); if(/fall/i.test(m[1])) name="Spring "+(yr+1); else if(/spring/i.test(m[1])) name="Fall "+yr; else name="Fall "+yr; } }
+  state.terms.push({id:uid(), name, targetCredits:15, courseCrns:[]}); render();
+}
+
+/* ---------------- import/export ---------------- */
+function exportJSON(){
+  const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob); const a=document.createElement("a");
+  a.href=url; a.download="rice-course-plan.json"; a.click(); URL.revokeObjectURL(url);
+  toast("Exported");
+}
+function importJSON(e){
+  const f=e.target.files[0]; if(!f) return; const rd=new FileReader();
+  rd.onload=()=>{ try{ state=JSON.parse(rd.result); migrate(); render(); toast("Imported"); }catch(err){ toast("Invalid file"); } };
+  rd.readAsText(f);
+}
+
+/* ---------------- theme ---------------- */
+function toggleTheme(){
+  const root=document.documentElement;
+  const cur=root.getAttribute("data-theme");
+  const sysDark=window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const next = cur ? (cur==="dark"?"light":"dark") : (sysDark?"light":"dark");
+  root.setAttribute("data-theme", next);
+  try{ localStorage.setItem(STORAGE_KEY+".theme", next); }catch(e){}
+}
+(function initTheme(){ try{ const t=localStorage.getItem(STORAGE_KEY+".theme"); if(t) document.documentElement.setAttribute("data-theme",t); }catch(e){} })();
+
+/* ---------------- wire up ---------------- */
+document.getElementById("tabs").addEventListener("click", e=>{
+  const b=e.target.closest(".tab"); if(!b) return; state.ui.tab=b.dataset.tab; render();
+});
+document.querySelector('[data-action="toggle-theme"]').addEventListener("click", toggleTheme);
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeModal(); });
+
+load(); render();
+</script>
+</body>
+</html>
