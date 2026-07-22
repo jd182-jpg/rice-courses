@@ -156,6 +156,12 @@
   .ccard { border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--radius-sm);
     padding: 8px 9px; background: var(--surface-2); position: relative; }
   .ccard.conflict { border-left-color: var(--bad); background: var(--bad-soft); }
+  .ccard { cursor: grab; }
+  .ccard:active { cursor: grabbing; }
+  .ccard.dragging { opacity: .4; }
+  .term.dropok { outline: 2px dashed var(--accent); outline-offset: 2px; }
+  .term.dropok .term-body { background: var(--accent-soft); }
+  .ccard .grip { color: var(--faint); font-size: 11px; margin-right: 3px; cursor: grab; }
   .ccard .code { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--ink); }
   .ccard .ct { font-size: 12.5px; color: var(--text); margin: 1px 0 4px; line-height: 1.3; }
   .ccard .meta { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
@@ -670,7 +676,7 @@ function renderPlan(){
 
   const bar=el('<div class="row" style="margin-bottom:14px"></div>');
   bar.appendChild(mkBtn("+ Add term", "ghost", ()=>{ addTerm(); }));
-  bar.appendChild(el('<span class="hint">Placeholders (BUSI 448, “Free elective”) are planning stand-ins — swap for real courses when you register. Times on future terms are approximate.</span>'));
+  bar.appendChild(el('<span class="hint">Drag a course card (⠿) into another term to move it. “Free elective” cards are planning stand-ins — swap for real courses when you register.</span>'));
   wrap.appendChild(bar);
 
   const scroll=el('<div class="plan-scroll"></div>');
@@ -682,6 +688,10 @@ function renderPlan(){
     const conflicts=termConflicts(term);
     const tc=termCredits(term); const tgt=num(term.targetCredits,0);
     const card=el('<div class="term card"></div>');
+    // drop target for drag-and-drop
+    card.addEventListener('dragover', e=>{ if(DRAG){ e.preventDefault(); e.dataTransfer.dropEffect='move'; card.classList.add('dropok'); } });
+    card.addEventListener('dragleave', e=>{ if(!card.contains(e.relatedTarget)) card.classList.remove('dropok'); });
+    card.addEventListener('drop', e=>{ e.preventDefault(); card.classList.remove('dropok'); if(DRAG && DRAG.crn) moveCourse(DRAG.crn, DRAG.from, term.id); });
     const head=el('<div class="term-head"></div>');
     head.appendChild(el('<div class="row spread"><span class="tname" contenteditable="true" spellcheck="false" data-term="'+term.id+'">'+esc(term.name)+'</span><button class="x btn danger sm" title="Remove term">Remove</button></div>'));
     head.querySelector('.tname').addEventListener('blur', e=>{ term.name=e.target.textContent.trim()||term.name; save(); renderSummary(); });
@@ -695,7 +705,7 @@ function renderPlan(){
       const conf=conflicts.has(crn);
       const cc=el('<div class="ccard'+(conf?' conflict':'')+'"></div>');
       cc.innerHTML=`<button class="x" title="Remove">×</button>
-        <div class="code">${esc(courseCode(c))}</div>
+        <div class="code"><span class="grip" title="Drag to another term">⠿</span> ${esc(courseCode(c))}</div>
         <div class="ct">${esc(c.title)}</div>
         <div class="meta">
           <span class="pill mono">${num(c.credits)} cr</span>
@@ -704,6 +714,15 @@ function renderPlan(){
           ${conf?'<span class="pill bad">conflict</span>':''}
         </div>`;
       cc.querySelector('.x').addEventListener('click', ()=>{ term.courseCrns=term.courseCrns.filter(x=>x!==crn); render(); });
+      // drag to move between terms
+      cc.setAttribute('draggable','true');
+      cc.addEventListener('dragstart', e=>{
+        DRAG={crn, from:term.id};
+        e.dataTransfer.effectAllowed='move';
+        try{ e.dataTransfer.setData('text/plain', crn); }catch(_){}
+        setTimeout(()=>cc.classList.add('dragging'),0);
+      });
+      cc.addEventListener('dragend', ()=>{ cc.classList.remove('dragging'); document.querySelectorAll('.term.dropok').forEach(n=>n.classList.remove('dropok')); DRAG=null; });
       body.appendChild(cc);
     });
     card.appendChild(body);
@@ -1149,6 +1168,18 @@ function fieldInput(label, val, onChange, type){
   const i=el('<input '+(type==="number"?'type="number"':'')+' value="'+esc(val==null?"":val)+'">');
   i.addEventListener('change',e=>{ onChange(e.target.value); if(!document.getElementById("modalRoot").contains(i)) save(); });
   l.appendChild(i); return l;
+}
+let DRAG=null;
+function moveCourse(crn, fromId, toId){
+  if(!crn || fromId===toId) return;
+  const from=state.terms.find(t=>t.id===fromId), to=state.terms.find(t=>t.id===toId);
+  if(!from || !to) return;
+  from.courseCrns=(from.courseCrns||[]).filter(x=>x!==crn);
+  to.courseCrns=to.courseCrns||[];
+  if(!to.courseCrns.includes(crn)) to.courseCrns.push(crn);
+  const c=state.catalog[crn];
+  toast((c?courseCode(c):"Course")+" → "+to.name);
+  render();
 }
 function addTerm(){
   const last=state.terms[state.terms.length-1];
