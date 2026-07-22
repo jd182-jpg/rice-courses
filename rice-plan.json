@@ -7,27 +7,35 @@
   },
   "terms": [
     {
-      "id": "idmrw63z8t-u",
+      "id": "idmrw9s73p-v",
       "name": "Fall 2026",
-      "targetCredits": 15,
-      "courseCrns": []
+      "targetCredits": 19,
+      "courseCrns": [
+        "13201",
+        "13945",
+        "15940",
+        "13936",
+        "14730",
+        "14549",
+        "14830"
+      ]
     },
     {
-      "id": "idmrw63z8t-v",
+      "id": "idmrw9s73p-w",
       "name": "Spring 2027",
       "targetCredits": 15,
       "courseCrns": []
     },
     {
-      "id": "idmrw63z8t-w",
+      "id": "idmrw9s73p-x",
       "name": "Fall 2027",
       "targetCredits": 15,
       "courseCrns": []
     },
     {
-      "id": "idmrw63z8t-x",
+      "id": "idmrw9s73p-y",
       "name": "Spring 2028",
-      "targetCredits": 15,
+      "targetCredits": 12,
       "courseCrns": []
     }
   ],
@@ -9146,19 +9154,27 @@
   },
   "transcript": [
     {
-      "id": "idmrw63z8q-1",
+      "id": "idmrw9s73n-1",
       "subject": "CEVE",
       "number": "100",
       "title": "AP/OTH Credit Environ Science",
       "credits": 3,
       "grade": "TR",
       "term": "AP / Transfer",
-      "divisions": [
-        "D3"
-      ]
+      "divisions": []
     },
     {
-      "id": "idmrw63z8q-2",
+      "id": "idmrw9s73n-2",
+      "subject": "TRAN",
+      "number": "100",
+      "title": "Intro Statistical Analysis (transfer)",
+      "credits": 3,
+      "grade": "TR",
+      "term": "Summer 2026",
+      "divisions": []
+    },
+    {
+      "id": "idmrw9s73n-3",
       "subject": "BUSI",
       "number": "221",
       "title": "New Enterprises: Discovery",
@@ -9168,7 +9184,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-3",
+      "id": "idmrw9s73n-4",
       "subject": "BUSI",
       "number": "310",
       "title": "Leading in Organizations",
@@ -9178,7 +9194,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-4",
+      "id": "idmrw9s73n-5",
       "subject": "BUSI",
       "number": "360",
       "title": "Founder's Journey",
@@ -9188,7 +9204,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-5",
+      "id": "idmrw9s73n-6",
       "subject": "ECON",
       "number": "100",
       "title": "Principles of Economics",
@@ -9200,7 +9216,7 @@
       ]
     },
     {
-      "id": "idmrw63z8q-6",
+      "id": "idmrw9s73n-7",
       "subject": "LPAP",
       "number": "180",
       "title": "Walk, Jog, Run",
@@ -9210,7 +9226,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-7",
+      "id": "idmrw9s73n-8",
       "subject": "MATH",
       "number": "101",
       "title": "Single Variable Calculus I",
@@ -9222,7 +9238,7 @@
       ]
     },
     {
-      "id": "idmrw63z8q-8",
+      "id": "idmrw9s73n-9",
       "subject": "PSYC",
       "number": "101",
       "title": "Introduction to Psychology",
@@ -9234,7 +9250,7 @@
       ]
     },
     {
-      "id": "idmrw63z8q-9",
+      "id": "idmrw9s73n-a",
       "subject": "UNIV",
       "number": "194",
       "title": "CTIS Workshop",
@@ -9244,7 +9260,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-a",
+      "id": "idmrw9s73n-b",
       "subject": "UNIV",
       "number": "195",
       "title": "CDOD Workshop",
@@ -9254,7 +9270,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-b",
+      "id": "idmrw9s73n-c",
       "subject": "BUSI",
       "number": "220",
       "title": "Intro to Design and Innovation",
@@ -9264,7 +9280,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-c",
+      "id": "idmrw9s73n-d",
       "subject": "BUSI",
       "number": "305",
       "title": "Financial Accounting",
@@ -9274,7 +9290,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-d",
+      "id": "idmrw9s73n-e",
       "subject": "BUSI",
       "number": "361",
       "title": "Entrepreneurial Communication",
@@ -9284,7 +9300,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-e",
+      "id": "idmrw9s73n-f",
       "subject": "BUSI",
       "number": "369",
       "title": "New Enterprises",
@@ -9294,17 +9310,19 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-f",
+      "id": "idmrw9s73n-g",
       "subject": "BUSI",
       "number": "395",
       "title": "Data Analytics",
       "credits": 4,
       "grade": "A",
       "term": "Spring 2025",
-      "divisions": []
+      "divisions": [
+        "D3"
+      ]
     },
     {
-      "id": "idmrw63z8q-g",
+      "id": "idmrw9s73n-h",
       "subject": "COMM",
       "number": "120",
       "title": "FWIS Writing Studio",
@@ -9314,7 +9332,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-h",
+      "id": "idmrw9s73n-i",
       "subject": "FWIS",
       "number": "296",
       "title": "Business in Literature & Film",
@@ -9324,7 +9342,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-i",
+      "id": "idmrw9s73n-j",
       "subject": "BUSI",
       "number": "223",
       "title": "Modeling for Entrepreneurs",
@@ -9334,7 +9352,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-j",
+      "id": "idmrw9s73n-k",
       "subject": "BUSI",
       "number": "233",
       "title": "GenAI for Business",
@@ -9344,17 +9362,19 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-k",
+      "id": "idmrw9s73n-l",
       "subject": "BUSI",
       "number": "343",
       "title": "Financial Management",
       "credits": 3,
       "grade": "A",
       "term": "Fall 2025",
-      "divisions": []
+      "divisions": [
+        "D2"
+      ]
     },
     {
-      "id": "idmrw63z8q-l",
+      "id": "idmrw9s73n-m",
       "subject": "BUSI",
       "number": "380",
       "title": "Marketing",
@@ -9364,7 +9384,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-m",
+      "id": "idmrw9s73n-n",
       "subject": "BUSI",
       "number": "390",
       "title": "Strategic Management",
@@ -9374,7 +9394,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-n",
+      "id": "idmrw9s73n-o",
       "subject": "BUSI",
       "number": "461",
       "title": "Financing the Startup Venture",
@@ -9384,7 +9404,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-o",
+      "id": "idmrw9s73n-p",
       "subject": "ASIA",
       "number": "205",
       "title": "East Asian Food History",
@@ -9396,7 +9416,7 @@
       ]
     },
     {
-      "id": "idmrw63z8q-p",
+      "id": "idmrw9s73n-q",
       "subject": "BUSI",
       "number": "420",
       "title": "Leadership and Teams",
@@ -9406,7 +9426,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-q",
+      "id": "idmrw9s73n-r",
       "subject": "BUSI",
       "number": "448",
       "title": "Investments",
@@ -9416,7 +9436,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-r",
+      "id": "idmrw9s73n-s",
       "subject": "BUSI",
       "number": "463",
       "title": "Entrepreneurial Strategy",
@@ -9426,7 +9446,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-s",
+      "id": "idmrw9s73n-t",
       "subject": "BUSI",
       "number": "465",
       "title": "Student Venture Fund",
@@ -9436,7 +9456,7 @@
       "divisions": []
     },
     {
-      "id": "idmrw63z8q-t",
+      "id": "idmrw9s73n-u",
       "subject": "RELI",
       "number": "142",
       "title": "The Colors of Life",
@@ -9449,18 +9469,61 @@
     }
   ],
   "divisionTargets": {
-    "D1": 12,
-    "D2": 12,
-    "D3": 12
+    "D1": 9,
+    "D2": 9,
+    "D3": 9
   },
   "requirements": [
     {
-      "id": "idmrw63z8t-y",
-      "name": "Total credit hours",
+      "id": "idmrw9s73p-z",
+      "name": "Total credit hours (need 120)",
       "kind": "credits",
       "need": 120,
       "match": {
         "any": true
+      }
+    },
+    {
+      "id": "idmrw9s73p-10",
+      "name": "Upper-level credits, 300+ (need 48)",
+      "kind": "credits",
+      "need": 48,
+      "match": {
+        "minLevel": 300
+      }
+    },
+    {
+      "id": "idmrw9s73p-11",
+      "name": "Business Communication — BUSI 396",
+      "kind": "courses",
+      "need": 1,
+      "match": {
+        "courses": [
+          "BUSI396"
+        ]
+      }
+    },
+    {
+      "id": "idmrw9s73p-12",
+      "name": "Financial Statement Analysis — BUSI 401",
+      "kind": "courses",
+      "need": 1,
+      "match": {
+        "courses": [
+          "BUSI401"
+        ]
+      }
+    },
+    {
+      "id": "idmrw9s73p-13",
+      "name": "Business Core Elective — BUSI 430 or ECON 200",
+      "kind": "courses",
+      "need": 1,
+      "match": {
+        "courses": [
+          "BUSI430",
+          "ECON200"
+        ]
       }
     }
   ],
